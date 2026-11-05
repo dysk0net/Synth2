@@ -29,14 +29,25 @@ foreach(OXO_UID PROCESSOR CONTROLLER)
     string(REGEX REPLACE ",$" "" OXO_VST3_${OXO_UID}_UID_WORDS "${OXO_TEXT}")
 endforeach()
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET 14.0 CACHE STRING "macOS deployment target" FORCE)
-set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "build architectures")
+if(APPLE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 14.0 CACHE STRING "macOS deployment target" FORCE)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "build architectures")
+    set(OXO_LANGUAGES C CXX OBJC OBJCXX Swift)
+else()
+    # Windows (and any other non-Apple host): plain C++; the editor is VSTGUI
+    # (the SwiftUI panel in Shared/ is mac / iPad only).
+    set(OXO_LANGUAGES C CXX)
+endif()
 
 project(OxoSynth2VST3
     VERSION ${OXO_MARKETING_VERSION}
     DESCRIPTION "Synth2 VST3 - a Synth1 recreation"
-    LANGUAGES C CXX OBJC OBJCXX Swift
+    LANGUAGES ${OXO_LANGUAGES}
 )
+
+# Windows editor (VSTGUI panel, OxoSynth2VST3/source/win). OFF = the host's
+# generic parameter editor.
+option(OXO_WIN_EDITOR "Build the VSTGUI editor (Windows)" ON)
 
 set(vst3sdk_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../third_party/vst3sdk")
 if(NOT EXISTS "${vst3sdk_SOURCE_DIR}/CMakeLists.txt")
@@ -45,7 +56,11 @@ if(NOT EXISTS "${vst3sdk_SOURCE_DIR}/CMakeLists.txt")
         "git submodule update --init --recursive")
 endif()
 
-set(SMTG_ENABLE_VSTGUI_SUPPORT OFF CACHE BOOL "" FORCE)
+if(WIN32 AND OXO_WIN_EDITOR)
+    set(SMTG_ENABLE_VSTGUI_SUPPORT ON CACHE BOOL "" FORCE)
+else()
+    set(SMTG_ENABLE_VSTGUI_SUPPORT OFF CACHE BOOL "" FORCE)
+endif()
 set(SMTG_ENABLE_VST3_PLUGIN_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(SMTG_ENABLE_VST3_HOSTING_EXAMPLES OFF CACHE BOOL "" FORCE)
 
@@ -66,9 +81,7 @@ set(OXO_GENERATED_DIR "${PROJECT_BINARY_DIR}/generated")
 configure_file(source/OxoSynth2Identity.h.in "${OXO_GENERATED_DIR}/OxoSynth2Identity.h" @ONLY)
 configure_file(resource/au-info.plist "${OXO_GENERATED_DIR}/au-info.plist" @ONLY)
 
-smtg_add_vst3plugin(OxoSynth2VST3
-    PACKAGE_NAME ${OXO_VST3_PACKAGE_NAME}
-    SOURCES_LIST
+set(OXO_COMMON_SOURCES
     source/OxoSynth2CIDs.h
     ../EditorCore/State.hpp
     ../EditorCore/Storage.hpp
@@ -77,45 +90,92 @@ smtg_add_vst3plugin(OxoSynth2VST3
     source/OxoSynth2Controller.h
     source/OxoSynth2Controller.cpp
     source/OxoSynth2Entry.cpp
-    source/OxoSynth2EditorView.h
-    source/OxoSynth2EditorView.mm
-    source/OxoSynth2Trash.mm
     ../EditorCore/OxoSynth2Bridge.h
     ../EditorCore/Trash.hpp
     ../EditorCore/SynthEditorCore.hpp
 )
+if(APPLE)
+    set(OXO_PLATFORM_SOURCES
+        source/OxoSynth2EditorView.h
+        source/OxoSynth2EditorView.mm
+        source/OxoSynth2Trash.mm)
+else()
+    set(OXO_PLATFORM_SOURCES source/OxoSynth2TrashWin.cpp)
+    if(WIN32 AND OXO_WIN_EDITOR)
+        list(APPEND OXO_PLATFORM_SOURCES
+            source/win/OxoSynth2WinEditor.h
+            source/win/OxoSynth2WinEditor.cpp)
+    endif()
+endif()
 
-# SwiftUI editor: the shared UI (Shared/, reused by the future AUv3) + the
-# VST3 bridge, as a static Swift library exposing @_cdecl entry points
-# (EditorCore/OxoSynth2Bridge.h). Same pattern as oxo_simple.
-file(GLOB OXO_SHARED_SWIFT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../Shared/*.swift")
-add_library(OxoSynth2Editor STATIC
-    ${OXO_SHARED_SWIFT_SOURCES}
-    "${CMAKE_CURRENT_SOURCE_DIR}/source/editor/OxoSynth2EditorBridge.swift"
+smtg_add_vst3plugin(OxoSynth2VST3
+    PACKAGE_NAME ${OXO_VST3_PACKAGE_NAME}
+    SOURCES_LIST ${OXO_COMMON_SOURCES} ${OXO_PLATFORM_SOURCES}
 )
-set_target_properties(OxoSynth2Editor PROPERTIES
-    XCODE_ATTRIBUTE_SWIFT_OBJC_BRIDGING_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/source/editor/OxoSynth2Editor-Bridging-Header.h"
-    XCODE_ATTRIBUTE_SWIFT_VERSION "5.0"
-    XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC "YES"
-)
-target_include_directories(OxoSynth2Editor PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source/editor" "${CMAKE_CURRENT_SOURCE_DIR}/../EditorCore" "${OXO_GENERATED_DIR}")
-set_source_files_properties(source/OxoSynth2EditorView.mm source/OxoSynth2Trash.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc")
+
+if(APPLE)
+    # SwiftUI editor: the shared UI (Shared/, reused by the future AUv3) + the
+    # VST3 bridge, as a static Swift library exposing @_cdecl entry points
+    # (EditorCore/OxoSynth2Bridge.h). Same pattern as oxo_simple.
+    file(GLOB OXO_SHARED_SWIFT_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/../Shared/*.swift")
+    add_library(OxoSynth2Editor STATIC
+        ${OXO_SHARED_SWIFT_SOURCES}
+        "${CMAKE_CURRENT_SOURCE_DIR}/source/editor/OxoSynth2EditorBridge.swift"
+    )
+    set_target_properties(OxoSynth2Editor PROPERTIES
+        XCODE_ATTRIBUTE_SWIFT_OBJC_BRIDGING_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/source/editor/OxoSynth2Editor-Bridging-Header.h"
+        XCODE_ATTRIBUTE_SWIFT_VERSION "5.0"
+        XCODE_ATTRIBUTE_CLANG_ENABLE_OBJC_ARC "YES"
+    )
+    target_include_directories(OxoSynth2Editor PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/source/editor" "${CMAKE_CURRENT_SOURCE_DIR}/../EditorCore" "${OXO_GENERATED_DIR}")
+    set_source_files_properties(source/OxoSynth2EditorView.mm source/OxoSynth2Trash.mm PROPERTIES COMPILE_FLAGS "-fobjc-arc")
+endif()
 
 # Repo root on the include path: EngineCore/ headers resolve as
 # "EngineCore/...", like every Oxo target.
 target_include_directories(OxoSynth2VST3 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/.." "${OXO_GENERATED_DIR}")
-target_compile_options(OxoSynth2VST3 PRIVATE $<$<COMPILE_LANGUAGE:CXX,OBJCXX>:-std=c++20>)
-target_link_libraries(OxoSynth2VST3 PRIVATE sdk OxoSynth2Editor z
-    "-framework AppKit"
-    "-framework SwiftUI"
-    "-framework Combine"
-    "-framework UniformTypeIdentifiers"
-)
-# Swift runtime search paths for linking the Swift static lib into the C++ module.
-set_target_properties(OxoSynth2VST3 PROPERTIES
-    XCODE_ATTRIBUTE_LIBRARY_SEARCH_PATHS "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx /usr/lib/swift $(inherited)"
-    XCODE_ATTRIBUTE_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES "NO"
-)
+if(APPLE)
+    target_compile_options(OxoSynth2VST3 PRIVATE $<$<COMPILE_LANGUAGE:CXX,OBJCXX>:-std=c++20>)
+    target_link_libraries(OxoSynth2VST3 PRIVATE sdk OxoSynth2Editor z
+        "-framework AppKit"
+        "-framework SwiftUI"
+        "-framework Combine"
+        "-framework UniformTypeIdentifiers"
+    )
+    # Swift runtime search paths for linking the Swift static lib into the C++ module.
+    set_target_properties(OxoSynth2VST3 PROPERTIES
+        XCODE_ATTRIBUTE_LIBRARY_SEARCH_PATHS "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx /usr/lib/swift $(inherited)"
+        XCODE_ATTRIBUTE_ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES "NO"
+    )
+else()
+    # zlib (zip banks, EngineCore/PatchLibrary.hpp): a system / vcpkg one if
+    # CMake finds it, else a static copy fetched from GitHub.
+    find_package(ZLIB QUIET)
+    if(NOT ZLIB_FOUND)
+        include(FetchContent)
+        set(ZLIB_BUILD_SHARED OFF CACHE BOOL "" FORCE)
+        set(ZLIB_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+        set(ZLIB_INSTALL OFF CACHE BOOL "" FORCE)
+        FetchContent_Declare(oxo_zlib GIT_REPOSITORY https://github.com/madler/zlib.git GIT_TAG v1.3.1)
+        FetchContent_MakeAvailable(oxo_zlib)
+        set(OXO_ZLIB_TARGET zlibstatic)
+        target_include_directories(zlibstatic PUBLIC "${oxo_zlib_SOURCE_DIR}" "${oxo_zlib_BINARY_DIR}")
+    else()
+        set(OXO_ZLIB_TARGET ZLIB::ZLIB)
+    endif()
+    target_compile_features(OxoSynth2VST3 PRIVATE cxx_std_20)
+    # MSVC only defines M_PI (EngineCore) with _USE_MATH_DEFINES; NOMINMAX
+    # keeps windows.h's min / max macros away from std::min / std::max.
+    target_compile_definitions(OxoSynth2VST3 PRIVATE _USE_MATH_DEFINES NOMINMAX WIN32_LEAN_AND_MEAN)
+    target_link_libraries(OxoSynth2VST3 PRIVATE sdk ${OXO_ZLIB_TARGET} ole32 shell32 uuid)
+    if(WIN32 AND OXO_WIN_EDITOR)
+        target_link_libraries(OxoSynth2VST3 PRIVATE vstgui_support)
+        target_compile_definitions(OxoSynth2VST3 PRIVATE OXO_WIN_EDITOR=1)
+    endif()
+    if(MSVC)
+        target_compile_options(OxoSynth2VST3 PRIVATE /utf-8)
+    endif()
+endif()
 
 if(SMTG_MAC AND XCODE AND SMTG_ENABLE_AUV2_BUILDS)
     # Wraps the VST3 binary itself as an AUv2 instrument component (SDK's

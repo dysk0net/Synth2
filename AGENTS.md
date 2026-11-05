@@ -143,6 +143,18 @@ VERSION: MARKETING_VERSION / CURRENT_PROJECT_VERSION in `Identity.xcconfig`
   `AudioUnitSDK` 1.4.0 (Apache 2.0); remaining patches: hidden-param
   auwrapper + AudioUnitSDK deployment target.
 
+## Windows port
+
+`OxoSynth2VST3/CMakeLists.txt` is platform-split: Apple = Swift editor + AUv2,
+else plain C++. Windows: `EditorCore/Storage.hpp` (%APPDATA%, Documents, factory
+bank found with GetModuleHandleEx), `Trash.hpp` (Recycle Bin, built from
+`OxoSynth2TrashWin.cpp`), editor = VSTGUI panel in `OxoSynth2VST3/source/win/`
+(`OxoSynth2WinEditor`, controls bind straight to `SynthEditorCore`; sections
+are a table + shelf packing). Needs MSVC for VSTGUI's win32 layer (MinGW can
+compile our sources but not link VSTGUI). CI: `.github/workflows/windows-vst3.yml`.
+Known gaps: see README "Windows (VST3)"; `.string()` path conversions in
+`PatchLibrary.hpp` use the ANSI code page (non-ASCII user names are untested).
+
 ## Builds and tests
 
 - `./build_vst3.sh` → builds and installs `OxoSynth2.vst3` + `Oxo

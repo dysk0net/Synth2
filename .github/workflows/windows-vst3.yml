@@ -1,0 +1,29 @@
+name: Windows VST3
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure (Visual Studio 2022, x64)
+        run: cmake -S OxoSynth2VST3 -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF
+
+      # The SDK runs its validator on the built plug-in as a post-build step:
+      # a failing validation fails this job.
+      - name: Build (Release)
+        run: cmake --build build --config Release --parallel
+
+      - name: Upload the VST3 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: OxoSynth2-win64-vst3
+          path: build/VST3/Release/OxoSynth2.vst3

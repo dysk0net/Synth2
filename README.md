@@ -15,7 +15,7 @@ Synth2 aims to keep those sounds playable on modern computers. Open source, so t
 - **Import patches:** All Synth1 patches (`.sy1` files and zip banks) load just like in Synth1.
 - **Carefully modeled with Claude:** Opus 5.5 generated ~ 3 GB of measurement data before modeling every parameter one by one.
 
-Formats: macOS VST3 + AUv2, iPad AUv3. Currently working on the Windows version. Linux ports are welcome: if you're a developer on Linux, fork the repository and open a pull request.
+Formats: macOS VST3 + AUv2, iPad AUv3. Windows VST3: first port (see Building). Linux ports are welcome: if you're a developer on Linux, fork the repository and open a pull request.
 
 ## Download
 
@@ -79,7 +79,30 @@ The file is gitignored, so it stays on your machine.
 
 ### Windows (VST3)
 
-5 november 2026: In progress.
+Requirements: Windows 10+ x64, Visual Studio 2022 (C++ workload), CMake 3.25+, Git.
+
+```
+git clone --recursive https://github.com/chab/oxo_synth2.git
+cd oxo_synth2
+cmake -S OxoSynth2VST3 -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF
+cmake --build build --config Release
+```
+
+The result is the bundle `build\VST3\Release\OxoSynth2.vst3` (the SDK's validator runs on it
+as a post-build step). Copy that folder to `C:\Program Files\Common Files\VST3`. zlib is taken
+from the system if CMake finds it, else fetched from GitHub.
+
+Per-user files: settings in `%APPDATA%\Oxo Music\Oxo Synth2`, the bank library in
+`Documents\Oxo Music\Oxo Synth2`; the factory bank sits inside the bundle. Deleted banks go to
+the Recycle Bin.
+
+The Windows editor (`OxoSynth2VST3/source/win`, VSTGUI) has all 99 parameters + volume, the
+patch LCD with previous / next, a bank browser, and a menu (initialize, load / save `.sy1`, all
+notes off). Not ported yet: MIDI learn, themes, UI scaling, the write dialog, bank import /
+export / delete from the browser, the controller-routing menus (params 86-89 still work from
+patches). `-DOXO_WIN_EDITOR=OFF` builds without it (the host shows its generic editor).
+
+CI: `.github/workflows/windows-vst3.yml` builds and uploads the bundle.
 
 
 ### Tests
