@@ -6,24 +6,56 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write # only to publish the build logs to the ci-logs branch
+
 jobs:
   build:
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
 
       - name: Configure (Visual Studio 2022, x64)
-        run: cmake -S OxoSynth2VST3 -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF
+        run: |
+          New-Item -ItemType Directory -Force logs | Out-Null
+          cmake -S OxoSynth2VST3 -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF 2>&1 | Tee-Object -FilePath logs/configure.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       # The SDK runs its validator on the built plug-in as a post-build step:
       # a failing validation fails this job.
       - name: Build (Release)
-        run: cmake --build build --config Release --parallel
+        run: |
+          cmake --build build --config Release --parallel 2>&1 | Tee-Object -FilePath logs/build.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Upload the VST3 bundle
         uses: actions/upload-artifact@v4
         with:
           name: OxoSynth2-win64-vst3
           path: build/VST3/Release/OxoSynth2.vst3
+
+      - name: Publish logs to the ci-logs branch
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p logs /tmp/ci
+          for f in logs/*.log; do
+            [ -f "$f" ] || continue
+            n=$(basename "$f" .log)
+            grep -nE "error|fatal|FAILED|MSB[0-9]+|C4996|LNK[0-9]+|Validat|Error" "$f" | head -300 > "/tmp/ci/$n.errors.txt" || true
+            tail -n 200 "$f" > "/tmp/ci/$n.tail.txt"
+            cp "$f" "/tmp/ci/$n.full.log"
+          done
+          cd /tmp/ci
+          git init -q
+          git config user.name github-actions
+          git config user.email actions@users.noreply.github.com
+          git checkout -q -b ci-logs
+          git add -A
+          git commit -qm "CI logs for ${GITHUB_SHA}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" ci-logs
