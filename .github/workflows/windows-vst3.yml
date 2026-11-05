@@ -20,10 +20,10 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure (Visual Studio 2022, x64)
+      - name: Configure (latest Visual Studio, x64)
         run: |
           New-Item -ItemType Directory -Force logs | Out-Null
-          cmake -S OxoSynth2VST3 -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF 2>&1 | Tee-Object -FilePath logs/configure.log
+          cmake -S OxoSynth2VST3 -B build -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF 2>&1 | Tee-Object -FilePath logs/configure.log
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       # The SDK runs its validator on the built plug-in as a post-build step:

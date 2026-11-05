@@ -79,12 +79,12 @@ The file is gitignored, so it stays on your machine.
 
 ### Windows (VST3)
 
-Requirements: Windows 10+ x64, Visual Studio 2022 (C++ workload), CMake 3.25+, Git.
+Requirements: Windows 10+ x64, Visual Studio 2022 or newer (C++ workload), CMake 3.25+, Git.
 
 ```
 git clone --recursive https://github.com/chab/oxo_synth2.git
 cd oxo_synth2
-cmake -S OxoSynth2VST3 -B build -G "Visual Studio 17 2022" -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF
+cmake -S OxoSynth2VST3 -B build -A x64 -DSMTG_CREATE_PLUGIN_LINK=OFF
 cmake --build build --config Release
 ```
 
