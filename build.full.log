@@ -1,0 +1,1532 @@
+MSBuild version 18.11.1-1.26513.3+940033be3 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/vstgui4/vstgui/lib/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/CMakeLists.txt
+  cmake_pch.cxx
+  baseiids.cpp
+  fbuffer.cpp
+  fdebug.cpp
+  fdynlib.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  conststringtable.cpp
+  coreiids.cpp
+  funknown.cpp
+  ustring.cpp
+  adler32.c
+  compress.c
+  crc32.c
+  deflate.c
+  gzclose.c
+  fobject.cpp
+  gzlib.c
+  gzread.c
+  gzwrite.c
+  inflate.c
+  infback.c
+  inftrees.c
+  inffast.c
+  trees.c
+  uncompr.c
+  fstreamer.cpp
+  zutil.c
+  fstring.cpp
+  zlibstatic.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\zlibstatic.lib
+  timer.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file 'vst3sdk/VSTGUI.build/vstgui/lib/CMakeFiles/vstgui.dir/cmake_pch.cxx')
+  
+  animations.cpp
+  animator.cpp
+  timingfunctions.cpp
+  cbitmap.cpp
+  updatehandler.cpp
+  fcondition.cpp
+  cbitmapfilter.cpp
+  cclipboard.cpp
+  flock.cpp
+  ccolor.cpp
+  cdatabrowser.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/cdatabrowser.cpp')
+  
+  cdrawcontext.cpp
+  cdrawmethods.cpp
+  cdropsource.cpp
+  cexternalview.cpp
+  cfileselector.cpp
+  cfont.cpp
+  cframe.cpp
+  cgradient.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/cframe.cpp')
+  
+  cgradientview.cpp
+  cgraphicspath.cpp
+  clayeredviewcontainer.cpp
+  clinestyle.cpp
+  ctexteditor.cpp
+  coffscreencontext.cpp
+  cautoanimation.cpp
+  cbuttons.cpp
+  ccolorchooser.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/controls/ccolorchooser.cpp')
+  
+  base.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\base.lib
+  pluginterfaces.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\pluginterfaces.lib
+  ccontrol.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/ctexteditor.cpp')
+  
+  cfontchooser.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\ctexteditor.cpp(1967,18): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/ctexteditor.cpp')
+  
+  cknob.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/controls/cfontchooser.cpp')
+  
+  clistcontrol.cpp
+  cmoviebitmap.cpp
+  cmoviebutton.cpp
+  coptionmenu.cpp
+  cparamdisplay.cpp
+  cscrollbar.cpp
+  csearchtextedit.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/controls/csearchtextedit.cpp')
+  
+  csegmentbutton.cpp
+  cslider.cpp
+  cspecialdigit.cpp
+  csplashscreen.cpp
+  cstringlist.cpp
+  cswitch.cpp
+  ctextedit.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/controls/ctextedit.cpp')
+  
+  ctextlabel.cpp
+  cvumeter.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/controls/ctextlabel.cpp')
+  
+  cxypad.cpp
+  copenglview.cpp
+  cpoint.cpp
+  crect.cpp
+  crowcolumnview.cpp
+  cscrollview.cpp
+  cshadowviewcontainer.cpp
+  csplitview.cpp
+  cstring.cpp
+  ctabview.cpp
+  ctooltipsupport.cpp
+  cview.cpp
+  cviewcontainer.cpp
+  cvstguitimer.cpp
+  events.cpp
+  genericstringlistdatabrowsersource.cpp
+  pixelbuffer.cpp
+  platformfactory.cpp
+  fileresourceinputstream.cpp
+  genericoptionmenu.cpp
+  generictextedit.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\lib\vstgui.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/lib/platform/common/generictextedit.cpp')
+  
+  stringconvert.cpp
+  autosizeviewlayouter.cpp
+  gridlayouter.cpp
+  tasks.cpp
+  vstguidebug.cpp
+  vstguiinit.cpp
+  d2dbitmap.cpp
+  d2dbitmapcache.cpp
+  d2dfont.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/CMakeLists.txt
+  commoniids.cpp
+  commonstringconvert.cpp
+  openurl.cpp
+  systemclipboard_linux.cpp
+  systemclipboard_win32.cpp
+  d2dgradient.cpp
+  d2dgraphicscontext.cpp
+  threadchecker_linux.cpp
+  d2dgraphicspath.cpp
+  win32taskexecutor.cpp
+  threadchecker_win32.cpp
+  win32datapackage.cpp
+  readfile.cpp
+  vstpresetfile.cpp
+  win32directcomposition.cpp
+  win32dragging.cpp
+  win32factory.cpp
+  sdk_common.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\sdk_common.lib
+  win32frame.cpp
+  win32openglview.cpp
+  win32optionmenu.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/CMakeLists.txt
+  win32resourcestream.cpp
+  win32support.cpp
+  win32textedit.cpp
+  win32viewlayer.cpp
+  connectionproxy.cpp
+  eventlist.cpp
+  hostclasses.cpp
+  module.cpp
+  winfileselector.cpp
+  parameterchanges.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/CMakeLists.txt
+  winstring.cpp
+  pluginterfacesupport.cpp
+  wintimer.cpp
+  processdata.cpp
+  stringconvert.cpp
+  vstinitiids.cpp
+  pluginview.cpp
+  pluginfactory.cpp
+  moduleinit.cpp
+  dataexchange.cpp
+  stringconvert.cpp
+  vstgui.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui.lib
+  systemtime.cpp
+  testing.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/vstgui4/vstgui/uidescription/CMakeLists.txt
+  sdk_hosting.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\sdk_hosting.lib
+  vst2persistence.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/public.sdk/samples/vst-utilities/moduleinfotool/CMakeLists.txt
+  vstaudioeffect.cpp
+  vstbus.cpp
+  vstcomponent.cpp
+  vstcomponentbase.cpp
+  cmake_pch.cxx
+  vsteditcontroller.cpp
+  vstinitiids.cpp
+  vstnoteexpressiontypes.cpp
+  vstparameters.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription\vstgui_uidescription.vcxproj]
+  (compiling source file 'CMakeFiles/vstgui_uidescription.dir/cmake_pch.cxx')
+  
+  vstrepresentation.cpp
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/public.sdk/samples/vst-hosting/validator/CMakeLists.txt
+  compresseduidescription.cpp
+  cstream.cpp
+  cstream_zlib.cpp
+  uiattributes.cpp
+  uicontentprovider.cpp
+  uidescription.cpp
+  uidescriptionaddonregistry.cpp
+  uiviewcreator.cpp
+  uiviewfactory.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription\vstgui_uidescription.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription/uiviewcreator.cpp')
+  
+  uiviewswitchcontainer.cpp
+  xmlparser.cpp
+  uidesclist.cpp
+  main.cpp
+  moduleinfocreator.cpp
+  moduleinfoparser.cpp
+  module_win32.cpp
+  uijsonpersistence.cpp
+  sdk.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\sdk.lib
+  memorystream.cpp
+  moduleinit.cpp
+  moduleinfoparser.cpp
+  connectionproxytest.cpp
+  eventlisttest.cpp
+  hostclassestest.cpp
+  miditovsttest.cpp
+  parameterchangestest.cpp
+  pluginterfacesupporttest.cpp
+  processdatatest.cpp
+  plugprovider.cpp
+  busactivation.cpp
+  busconsistency.cpp
+  businvalidindex.cpp
+  checkaudiobusarrangement.cpp
+  uinode.cpp
+  scanbusses.cpp
+  uixmlpersistence.cpp
+  uiactions.cpp
+  uiattributescontroller.cpp
+  uibitmapscontroller.cpp
+  sidechainarrangement.cpp
+  uicolor.cpp
+  uicolorchoosercontroller.cpp
+  editorclasses.cpp
+  uicolorscontroller.cpp
+  uicolorslider.cpp
+  midilearn.cpp
+  uicrosslines.cpp
+  midimapping.cpp
+  uidialogcontroller.cpp
+  uieditcontroller.cpp
+  uieditmenucontroller.cpp
+  uieditview.cpp
+  plugcompat.cpp
+  uifocussettingscontroller.cpp
+  uifontscontroller.cpp
+  uigradientscontroller.cpp
+  scanparameters.cpp
+  uigridcontroller.cpp
+  uioverlayview.cpp
+  suspendresume.cpp
+  uiselection.cpp
+  uitagscontroller.cpp
+  uitemplatecontroller.cpp
+  uitemplatesettingscontroller.cpp
+  uiundomanager.cpp
+  terminit.cpp
+  uiviewcreatecontroller.cpp
+  animationsplashscreencreator.cpp
+  animknobcreator.cpp
+  autoanimationcreator.cpp
+  checkboxcreator.cpp
+  keyswitch.cpp
+  controlcreator.cpp
+  gradientviewcreator.cpp
+  noteexpression.cpp
+  kickbuttoncreator.cpp
+  moduleinfotool.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\moduleinfotool.exe
+  knobcreator.cpp
+  automation.cpp
+  process.cpp
+  processcontextrequirements.cpp
+  processformat.cpp
+  processinputoverwriting.cpp
+  processtail.cpp
+  processthreaded.cpp
+  silenceflags.cpp
+  silenceprocessing.cpp
+  speakerarrangement.cpp
+  variableblocksize.cpp
+  bypasspersistence.cpp
+  invalidstatetransition.cpp
+  repeatidenticalstatetransition.cpp
+  validstatetransition.cpp
+  testbase.cpp
+  checkunitstructure.cpp
+  scanprograms.cpp
+  scanunits.cpp
+  vsttestsuite.cpp
+  testing.cpp
+  main.cpp
+  usediids.cpp
+  validator.cpp
+  module_win32.cpp
+  layeredviewcontainercreator.cpp
+  moviebitmapcreator.cpp
+  moviebuttoncreator.cpp
+  multibitmapcontrolcreator.cpp
+  multilinetextlabelcreator.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription\vstgui_uidescription.vcxproj]
+  onoffbuttoncreator.cpp
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/uidescription/viewcreator/multilinetextlabelcreator.cpp')
+  
+  optionmenucreator.cpp
+  paramdisplaycreator.cpp
+  rockerswitchcreator.cpp
+  rowcolumnviewcreator.cpp
+  scrollviewcreator.cpp
+  searchtexteditcreator.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription\vstgui_uidescription.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/uidescription/viewcreator/searchtexteditcreator.cpp')
+  
+  segmentbuttoncreator.cpp
+  shadowviewcontainercreator.cpp
+  sliderviewcreator.cpp
+  splitviewcreator.cpp
+  stringlistcontrolcreator.cpp
+  switchcreators.cpp
+  textbuttoncreator.cpp
+  texteditcreator.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription\vstgui_uidescription.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/uidescription/viewcreator/texteditcreator.cpp')
+  
+  textlabelcreator.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription\vstgui_uidescription.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/uidescription/viewcreator/textlabelcreator.cpp')
+  
+  uiviewswitchcontainercreator.cpp
+  viewcontainercreator.cpp
+  viewcreator.cpp
+  validator.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\validator.exe
+  vumetercreator.cpp
+  xypadcreator.cpp
+  Running validator selftest:
+  
+  [ConnectionProxy: Connect and disconnect]
+  [Succeeded]
+  
+  [ConnectionProxy: Disconnect wrong object]
+  [Succeeded]
+  
+  [ConnectionProxy: Send message on UI thread]
+  [Succeeded]
+  
+  [ConnectionProxy: Send message on 2nd thread]
+  [Succeeded]
+  
+  [EventList: Set and get single event]
+  [Succeeded]
+  
+  [EventList: Count events]
+  [Succeeded]
+  
+  [EventList: Overflow]
+  [Succeeded]
+  
+  [EventList: Get unknown event]
+  [Succeeded]
+  
+  [EventList: Resize]
+  [Succeeded]
+  
+  [HostApplication: Create instance of IAttributeList]
+  [Succeeded]
+  
+  [HostApplication: Create instance of IMessage]
+  [Succeeded]
+  
+  [HostAttributeList: Int]
+  [Succeeded]
+  
+  [HostAttributeList: Float]
+  [Succeeded]
+  
+  [HostAttributeList: String]
+  [Succeeded]
+  
+  [HostAttributeList: Binary]
+  [Succeeded]
+  
+  [HostAttributeList: Multiple Set]
+  [Succeeded]
+  
+  [MIDI2VST: midiToEvent noteOn]
+  [Succeeded]
+  
+  [MIDI2VST: midiToEvent noteOff]
+  [Succeeded]
+  
+  [MIDI2VST: midiToEvent polyPressure]
+  [Succeeded]
+  
+  [MIDI2VST: midiToEvent unsupported]
+  [Succeeded]
+  
+  [MIDI2VST: midiToParameter controller]
+  [Succeeded]
+  
+  [MIDI2VST: midiToParameter pitchBend]
+  [Succeeded]
+  
+  [MIDI2VST: midiToParameter channelPressure]
+  [Succeeded]
+  
+  [MIDI2VST: midiToParameter unsupported]
+  [Succeeded]
+  
+  [ParameterValueQueue: Set paramID]
+  [Succeeded]
+  
+  [ParameterValueQueue: Set/get point]
+  [Succeeded]
+  
+  [ParameterValueQueue: Set/get multiple points]
+  [Succeeded]
+  
+  [ParameterValueQueue: Ordered points]
+  [Succeeded]
+  
+  [ParameterValueQueue: Clear]
+  [Succeeded]
+  
+  [ParameterChanges: Parameter count]
+  [Succeeded]
+  
+  [ParameterChanges: Clear queue]
+  [Succeeded]
+  
+  [ParameterChanges: Increase max parameters]
+  [Succeeded]
+  
+  [ParameterChanges: Get parameter data]
+  [Succeeded]
+  
+  [ParameterChangeTransfer: Add/get change]
+  [Succeeded]
+  
+  [ParameterChangeTransfer: Remove changes]
+  [Succeeded]
+  
+  [ParameterChangeTransfer: Transfer changes to]
+  [Succeeded]
+  
+  [ParameterChangeTransfer: Transfer changes from]
+  [Succeeded]
+  
+  [PlugInterfaceSupport: Initial interfaces]
+  [Succeeded]
+  
+  [PlugInterfaceSupport: Add interface]
+  [Succeeded]
+  
+  [PlugInterfaceSupport: Remove interface]
+  [Succeeded]
+  
+  [HostProcessData: No bus]
+  [Succeeded]
+  
+  [HostProcessData: 1 out bus no channels]
+  [Succeeded]
+  
+  [HostProcessData: 1 out bus 2 channels]
+  [Succeeded]
+  
+  [HostProcessData: 1 in & out bus 2 channels]
+  [Succeeded]
+  
+  [HostProcessData: 2 in & out bus dif channels]
+  [Succeeded]
+  
+  [HostProcessData: Set all channel buffers 32]
+  [Succeeded]
+  
+  [HostProcessData: Set all channel buffers 64]
+  [Succeeded]
+  
+  [HostProcessData: Set individual channel buffers 32]
+  [Succeeded]
+  
+  [HostProcessData: Set individual channel buffers 32 combined]
+  [Succeeded]
+  
+  [HostProcessData: Set individual channel buffers 64]
+  [Succeeded]
+  
+  [HostProcessData: Set individual channel buffers 64 combined]
+  [Succeeded]
+  
+  Executed 51 Tests.
+  0 failed test(s).
+  vstgui_uidescription.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui_uidescription.lib
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/CMakeLists.txt
+  vst3groupcontroller.cpp
+  vst3padcontroller.cpp
+  vst3editor.cpp
+  vstguieditor.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\vstgui_support.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/plugin-bindings/vst3groupcontroller.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\vstgui_support.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/plugin-bindings/vst3padcontroller.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\vstgui_support.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/plugin-bindings/vst3editor.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\vstgui_support.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/public.sdk/source/vst/vstguieditor.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\vstgui_support.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/public.sdk/source/vst/vstguieditor.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\vstgui_support.vcxproj]
+  (compiling source file '../../third_party/vst3sdk/vstgui4/vstgui/plugin-bindings/vst3editor.cpp')
+  
+  vstgui_win32_bundle_support.cpp
+  vstgui_support.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui_support.lib
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/001.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/001.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/001.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/002.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/002.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/002.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/003.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/003.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/003.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/004.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/004.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/004.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/005.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/005.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/005.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/006.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/006.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/006.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/007.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/007.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/007.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/008.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/008.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/008.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/009.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/009.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/009.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/010.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/010.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/010.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/011.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/011.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/011.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/012.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/012.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/012.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/013.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/013.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/013.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/014.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/014.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/014.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/033.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/033.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/033.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/034.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/034.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/034.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/035.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/035.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/035.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/036.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/036.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/036.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/037.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/037.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/037.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/038.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/038.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/038.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/039.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/039.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/039.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/040.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/040.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/040.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/041.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/041.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/041.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/042.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/042.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/042.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/043.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/043.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/043.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/044.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/044.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/044.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/065.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/065.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/065.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/066.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/066.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/066.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/067.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/067.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/067.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/068.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/068.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/068.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/069.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/069.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/069.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/070.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/070.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/070.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/071.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/071.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/071.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/072.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/072.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/072.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/073.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/073.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/073.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/074.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/074.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/074.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/075.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/075.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/075.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/076.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/076.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/076.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/080.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/080.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/080.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/081.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/081.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/081.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/082.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/082.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/082.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/097.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/097.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/097.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/098.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/098.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/098.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/099.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/099.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/099.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/100.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/100.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/100.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/101.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/101.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/101.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/102.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/102.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/102.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/103.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/103.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/103.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/104.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/104.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/104.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/105.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/105.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/105.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/106.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Factory/106.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Factory/106.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/001.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/001.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/001.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/002.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/002.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/002.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/003.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/003.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/003.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/004.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/004.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/004.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/005.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/005.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/005.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/006.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/006.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/006.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/007.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/007.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/007.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/008.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/008.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/008.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/009.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/009.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/009.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/010.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/010.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/010.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/011.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/011.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/011.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/012.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/012.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/012.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/013.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/013.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/013.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/014.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/014.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/014.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/015.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/015.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/015.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/016.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/016.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/016.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/017.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/017.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/017.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/018.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/018.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/018.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/019.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/019.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/019.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/020.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/020.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/020.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/021.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/021.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/021.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/022.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/022.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/022.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/023.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/023.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/023.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/024.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/024.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/024.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/025.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/025.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/025.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/026.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/026.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/026.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/027.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/027.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/027.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/028.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/028.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/028.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/029.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/029.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/029.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/030.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/030.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/030.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/031.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/031.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/031.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/032.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/032.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/032.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/033.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/033.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/033.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/034.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/034.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/034.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/035.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/035.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/035.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/036.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/036.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/036.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/037.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/037.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/037.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/038.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/038.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/038.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/039.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/039.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/039.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/040.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/040.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/040.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/041.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/041.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/041.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/042.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/042.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/042.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/043.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/043.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/043.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/044.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/044.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/044.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/045.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/045.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/045.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/046.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/046.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/046.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/047.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/047.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/047.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/048.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/048.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/048.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/049.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/049.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/049.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/050.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/050.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/050.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/051.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/051.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/051.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/052.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/052.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/052.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/053.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/053.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/053.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/054.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/054.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/054.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/055.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/055.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/055.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/056.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/056.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/056.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/057.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/057.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/057.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/058.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/058.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/058.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/059.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/059.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/059.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/060.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/060.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/060.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/061.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/061.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/061.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/062.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/062.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/062.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/063.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/063.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/063.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/064.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/064.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/064.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/065.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/065.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/065.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/066.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/066.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/066.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/067.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/067.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/067.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/068.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/068.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/068.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/069.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/069.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/069.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/070.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/070.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/070.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/071.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/071.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/071.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/072.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/072.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/072.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/073.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/073.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/073.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/074.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/074.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/074.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/075.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/075.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/075.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/076.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/076.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/076.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/077.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/077.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/077.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/078.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/078.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/078.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/079.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/079.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/079.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/080.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/080.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/080.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/081.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/081.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/081.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/082.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/082.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/082.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/083.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/083.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/083.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/084.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/084.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/084.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/085.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/085.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/085.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/086.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/086.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/086.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/087.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/087.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/087.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/088.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/088.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/088.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/089.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/089.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/089.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/090.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/090.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/090.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/091.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/091.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/091.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/092.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/092.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/092.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/093.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/093.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/093.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/094.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/094.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/094.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/095.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/095.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/095.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/096.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/096.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/096.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/097.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/097.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/097.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/098.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/098.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/098.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/099.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/099.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/099.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/100.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/100.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/100.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/101.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/101.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/101.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/102.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/102.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/102.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/103.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/103.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/103.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/104.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/104.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/104.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/105.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/105.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/105.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/106.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/106.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/106.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/107.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/107.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/107.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/108.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/108.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/108.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/109.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/109.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/109.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/110.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/110.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/110.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/111.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/111.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/111.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/112.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/112.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/112.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/113.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/113.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/113.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/114.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/114.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/114.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/115.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/115.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/115.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/116.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/116.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/116.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/117.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/117.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/117.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/118.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/118.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/118.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/119.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/119.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/119.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/120.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/120.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/120.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/121.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/121.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/121.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/122.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/122.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/122.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/123.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/123.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/123.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/124.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/124.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/124.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/125.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/125.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/125.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/126.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/126.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/126.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/127.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/127.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/127.sy1
+  Generating VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/128.sy1
+  [SMTG] Copied D:/a/Synth2/Synth2/Shared/Resources/Synth2 Starter Banks/Madame Eljay/128.sy1 to D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3/Contents/Resources/Synth2 Starter Banks/Madame Eljay/128.sy1
+  Building Custom Rule D:/a/Synth2/Synth2/OxoSynth2VST3/CMakeLists.txt
+  OxoSynth2Processor.cpp
+  OxoSynth2Controller.cpp
+  OxoSynth2Entry.cpp
+  OxoSynth2TrashWin.cpp
+  OxoSynth2WinEditor.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\OxoSynth2VST3.vcxproj]
+  (compiling source file '../OxoSynth2VST3/source/OxoSynth2Controller.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\OxoSynth2VST3.vcxproj]
+  (compiling source file '../OxoSynth2VST3/source/OxoSynth2Controller.cpp')
+  
+  dllmain.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\OxoSynth2VST3.vcxproj]
+  (compiling source file '../OxoSynth2VST3/source/win/OxoSynth2WinEditor.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\OxoSynth2VST3.vcxproj]
+  (compiling source file '../OxoSynth2VST3/source/win/OxoSynth2WinEditor.cpp')
+  
+     Creating library D:/a/Synth2/Synth2/build/lib/Release/OxoSynth2.lib and object D:/a/Synth2/Synth2/build/lib/Release/OxoSynth2.exp
+  OxoSynth2VST3.vcxproj -> D:\a\Synth2\Synth2\build\VST3\Release\OxoSynth2.vst3\Contents\x86_64-win\OxoSynth2.vst3
+  [SMTG] Copy PlugIn.ico and desktop.ini and change their attributes.		
+  [SMTG] Validator started...
+  * Loading module...
+  
+  	D:/a/Synth2/Synth2/build/VST3/Release/OxoSynth2.vst3
+  
+  * Check valid bundle structure...
+  
+  * Scanning classes...
+  
+    Factory Info:
+  	vendor = Oxo
+  	url = https://oxo-music.com
+  	email = mailto:contact@oxo-music.com
+  
+    Class Info 0:
+  	name = Oxo Synth2
+  	category = Audio Module Class
+  	subCategories = Instrument|Synth
+  	version = 1.1.1
+  	sdkVersion = VST 3.8.1
+  	cid = 496633A014184A63B4CBB0DE2D34B5B6
+  
+    Class Info 1:
+  	name = Oxo Synth2Controller
+  	category = Component Controller Class
+  	subCategories = 
+  	version = 1.1.1
+  	sdkVersion = VST 3.8.1
+  	cid = 6373C50818B14394A4CBB4EF2C6F6E28
+  
+  * Checking snapshots...
+  
+  Info: No snapshots in Bundle.
+  
+  * Creating tests...
+  
+  * Running tests...
+  
+  -------------------------------------------------------------
+  TestSuite : Oxo Synth2
+  -------------------------------------------------------------
+  
+  -------------------------------------------------------------
+  TestSuite : General Tests
+  -------------------------------------------------------------
+  
+  [Scan Editor Classes]
+  Info:  ===Scan Editor Classes ====================================
+  Info:  This component has an edit controller class
+  Info:     Controller CID: {6373C508-18B1-4394-A4CB-B4EF2C6F6E28}
+  [Succeeded]
+  
+  [Scan Buses]
+  Info:  ===Scan Buses ====================================
+  Info:  => Audio Buses: [0 In(s) => 1 Out(s)]
+  Info:       Out[0]: "Stereo Out" (Main-Default Active) 
+  Info:  => Event Buses: [1 In(s) => 0 Out(s)]
+  Info:       In [0]: "MIDI In" (Main-Default Active) 
+  [Succeeded]
+  
+  [Scan Parameters]
+  Info:  ===Scan Parameters ====================================
+  Info:  This component exports 235 parameter(s)
+  Info:     Parameter 000 (id=0): [title="osc1 shape"] [unit=""] [type = Discrete, default = 0.666667, unit = 0]
+  Info:     Parameter 001 (id=1): [title="osc2 shape"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 002 (id=2): [title="osc2 pitch"] [unit=""] [type = Discrete, default = 0.401575, unit = 0]
+  Info:     Parameter 003 (id=3): [title="osc2 fine tune"] [unit=""] [type = Discrete, default = 0.637795, unit = 0]
+  Info:     Parameter 004 (id=4): [title="osc2 kbd track"] [unit=""] [type = Toggle, default = 1.000000, unit = 0]
+  Info:  =>Parameter 004 (id=4): getParamValueByString ("On") doesn't return the original normalized value! Got 0.000000 instead of 1.000000.
+  Info:     Parameter 005 (id=5): [title="osc mix"] [unit=""] [type = Discrete, default = 0.543307, unit = 0]
+  Info:     Parameter 006 (id=6): [title="osc2 sync"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 007 (id=7): [title="osc2 ring modulation"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 008 (id=8): [title="osc pulse width"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 009 (id=9): [title="osc key shift"] [unit=""] [type = Discrete, default = 0.500000, unit = 0]
+  Info:     Parameter 010 (id=10): [title="osc mod env on/off"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 011 (id=11): [title="osc mod env amount"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 012 (id=12): [title="osc mod env attack"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 013 (id=13): [title="osc mod env decay"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 014 (id=14): [title="filter type"] [unit=""] [type = Discrete, default = 0.250000, unit = 0]
+  Info:     Parameter 015 (id=15): [title="filter attack"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 016 (id=16): [title="filter decay"] [unit=""] [type = Discrete, default = 0.314961, unit = 0]
+  Info:     Parameter 017 (id=17): [title="filter sustain"] [unit=""] [type = Discrete, default = 0.165354, unit = 0]
+  Info:     Parameter 018 (id=18): [title="filter release"] [unit=""] [type = Discrete, default = 0.543307, unit = 0]
+  Info:     Parameter 019 (id=19): [title="filter freq"] [unit=""] [type = Discrete, default = 0.251969, unit = 0]
+  Info:     Parameter 020 (id=20): [title="filter resonance"] [unit=""] [type = Discrete, default = 0.173228, unit = 0]
+  Info:     Parameter 021 (id=21): [title="filter amount"] [unit=""] [type = Discrete, default = 0.653543, unit = 0]
+  Info:     Parameter 022 (id=22): [title="filter kbd track"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 023 (id=23): [title="filter saturation"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 024 (id=24): [title="filter velocity switch"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 025 (id=25): [title="amp attack"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 026 (id=26): [title="amp decay"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 027 (id=27): [title="amp sustain"] [unit=""] [type = Discrete, default = 0.842520, unit = 0]
+  Info:     Parameter 028 (id=28): [title="amp release"] [unit=""] [type = Discrete, default = 0.614173, unit = 0]
+  Info:     Parameter 029 (id=29): [title="amp gain"] [unit=""] [type = Discrete, default = 0.535433, unit = 0]
+  Info:     Parameter 030 (id=30): [title="amp velocity sens"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 031 (id=31): [title="arpeggiator type"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 032 (id=32): [title="arpeggiator oct range"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 033 (id=33): [title="arpeggiator beat"] [unit=""] [type = Discrete, default = 0.611111, unit = 0]
+  Info:     Parameter 034 (id=34): [title="arpeggiator gate"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 035 (id=35): [title="delay time"] [unit=""] [type = Discrete, default = 0.421053, unit = 0]
+  Info:     Parameter 036 (id=36): [title="delay feedback"] [unit=""] [type = Discrete, default = 0.401575, unit = 0]
+  Info:     Parameter 037 (id=37): [title="delay dry/wet"] [unit=""] [type = Discrete, default = 0.157480, unit = 0]
+  Info:     Parameter 038 (id=38): [title="play mode type"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 039 (id=39): [title="portament time"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 040 (id=40): [title="pitch bend range"] [unit=""] [type = Discrete, default = 0.500000, unit = 0]
+  Info:     Parameter 041 (id=41): [title="lfo1 destination"] [unit=""] [type = Discrete, default = 0.333333, unit = 0]
+  Info:     Parameter 042 (id=42): [title="lfo1 type"] [unit=""] [type = Discrete, default = 1.000000, unit = 0]
+  Info:     Parameter 043 (id=43): [title="lfo1 speed"] [unit=""] [type = Discrete, default = 0.377953, unit = 0]
+  Info:     Parameter 044 (id=44): [title="lfo1 depth"] [unit=""] [type = Discrete, default = 0.149606, unit = 0]
+  Info:     Parameter 045 (id=45): [title="osc1 FM"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 046 (id=46): [title="lfo2 destination"] [unit=""] [type = Discrete, default = 0.666667, unit = 0]
+  Info:     Parameter 047 (id=47): [title="lfo2 type"] [unit=""] [type = Discrete, default = 0.200000, unit = 0]
+  Info:     Parameter 048 (id=48): [title="lfo2 speed"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 049 (id=49): [title="lfo2 depth"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 050 (id=50): [title="midi ctrl sens1"] [unit=""] [type = Discrete, default = 0.582677, unit = 0]
+  Info:     Parameter 051 (id=51): [title="midi ctrl sens2"] [unit=""] [type = Discrete, default = 0.582677, unit = 0]
+  Info:     Parameter 052 (id=52): [title="chorus delay time"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 053 (id=53): [title="chorus depth"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 054 (id=54): [title="chorus rate"] [unit=""] [type = Discrete, default = 0.393701, unit = 0]
+  Info:     Parameter 055 (id=55): [title="chorus feedback"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 056 (id=56): [title="chorus level"] [unit=""] [type = Discrete, default = 0.314961, unit = 0]
+  Info:     Parameter 057 (id=57): [title="lfo1 on/off"] [unit=""] [type = Toggle, default = 1.000000, unit = 0]
+  Info:  =>Parameter 057 (id=57): getParamValueByString ("On") doesn't return the original normalized value! Got 0.000000 instead of 1.000000.
+  Info:     Parameter 058 (id=58): [title="lfo2 on/off"] [unit=""] [type = Toggle, default = 1.000000, unit = 0]
+  Info:  =>Parameter 058 (id=58): getParamValueByString ("On") doesn't return the original normalized value! Got 0.000000 instead of 1.000000.
+  Info:     Parameter 059 (id=59): [title="arpeggiator on/off"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 060 (id=60): [title="equalizer tone"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 061 (id=61): [title="equalizer freq"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 062 (id=62): [title="equalizer level"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 063 (id=63): [title="equalizer Q"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 064 (id=64): [title="chorus type"] [unit=""] [type = Discrete, default = 0.333333, unit = 0]
+  Info:     Parameter 065 (id=65): [title="delay on/off"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 066 (id=66): [title="chorus on/off"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 067 (id=67): [title="lfo1 tempo sync"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 068 (id=68): [title="lfo1 key sync"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 069 (id=69): [title="lfo2 tempo sync"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 070 (id=70): [title="lfo2 key sync"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 071 (id=71): [title="osc mod dest"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 072 (id=72): [title="osc1,2 fine tune"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 073 (id=73): [title="unison mode"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 074 (id=74): [title="portament auto mode"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 075 (id=75): [title="unison detune"] [unit=""] [type = Discrete, default = 0.173228, unit = 0]
+  Info:     Parameter 076 (id=76): [title="osc1 detune"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 077 (id=77): [title="effect on/off"] [unit=""] [type = Toggle, default = 0.000000, unit = 0]
+  Info:     Parameter 078 (id=78): [title="effect type"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 079 (id=79): [title="effect control1"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 080 (id=80): [title="effect control2"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 081 (id=81): [title="effect level/mix"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 082 (id=82): [title="delay type"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 083 (id=83): [title="delay time spread"] [unit=""] [type = Discrete, default = 0.519685, unit = 0]
+  Info:     Parameter 084 (id=84): [title="unison pan spread"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 085 (id=85): [title="unison pitch"] [unit=""] [type = Discrete, default = 0.500000, unit = 0]
+  Info:     Parameter 086 (id=86): [title="midi ctrl src1"] [unit=""] [type = Discrete, default = 0.687531, unit = 0]
+  Info:     Parameter 087 (id=87): [title="midi ctrl assign1"] [unit=""] [type = Discrete, default = 0.000687, unit = 0]
+  Info:     Parameter 088 (id=88): [title="midi ctrl src2"] [unit=""] [type = Discrete, default = 0.687531, unit = 0]
+  Info:     Parameter 089 (id=89): [title="midi ctrl assign2"] [unit=""] [type = Discrete, default = 0.000671, unit = 0]
+  Info:     Parameter 090 (id=90): [title="pan"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 091 (id=91): [title="osc phase shift"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 092 (id=92): [title="unison phase shift"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 093 (id=93): [title="unison voice num"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 094 (id=94): [title="polyphony"] [unit=""] [type = Discrete, default = 0.483871, unit = 0]
+  Info:     Parameter 095 (id=95): [title="osc1 sub gain"] [unit=""] [type = Discrete, default = 0.000000, unit = 0]
+  Info:     Parameter 096 (id=96): [title="osc1 sub shape"] [unit=""] [type = Discrete, default = 0.333333, unit = 0]
+  Info:     Parameter 097 (id=97): [title="osc1 sub octave"] [unit=""] [type = Toggle, default = 1.000000, unit = 0]
+  Info:  =>Parameter 097 (id=97): getParamValueByString ("On") doesn't return the original normalized value! Got 0.000000 instead of 1.000000.
+  Info:     Parameter 098 (id=98): [title="delay tone"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 099 (id=99): [title="Volume"] [unit=""] [type = Discrete, default = 0.503937, unit = 0]
+  Info:     Parameter 100 (id=1000): [title="Pitch Bend"] [unit=""] [type = Float, default = 0.500000, unit = 0]
+  Info:     Parameter 101 (id=1001): [title="Channel Pressure"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 102 (id=1100): [title="CC 0"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 103 (id=1101): [title="CC 1"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 104 (id=1102): [title="CC 2"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 105 (id=1103): [title="CC 3"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 106 (id=1104): [title="CC 4"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 107 (id=1105): [title="CC 5"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 108 (id=1106): [title="CC 6"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 109 (id=1107): [title="CC 7"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 110 (id=1108): [title="CC 8"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 111 (id=1109): [title="CC 9"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 112 (id=1110): [title="CC 10"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 113 (id=1111): [title="CC 11"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 114 (id=1112): [title="CC 12"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 115 (id=1113): [title="CC 13"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 116 (id=1114): [title="CC 14"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 117 (id=1115): [title="CC 15"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 118 (id=1116): [title="CC 16"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 119 (id=1117): [title="CC 17"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 120 (id=1118): [title="CC 18"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 121 (id=1119): [title="CC 19"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 122 (id=1120): [title="CC 20"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 123 (id=1121): [title="CC 21"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 124 (id=1122): [title="CC 22"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 125 (id=1123): [title="CC 23"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 126 (id=1124): [title="CC 24"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 127 (id=1125): [title="CC 25"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 128 (id=1126): [title="CC 26"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 129 (id=1127): [title="CC 27"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 130 (id=1128): [title="CC 28"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 131 (id=1129): [title="CC 29"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 132 (id=1130): [title="CC 30"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 133 (id=1131): [title="CC 31"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 134 (id=1132): [title="CC 32"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 135 (id=1133): [title="CC 33"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 136 (id=1134): [title="CC 34"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 137 (id=1135): [title="CC 35"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 138 (id=1136): [title="CC 36"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 139 (id=1137): [title="CC 37"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 140 (id=1138): [title="CC 38"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 141 (id=1139): [title="CC 39"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 142 (id=1140): [title="CC 40"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 143 (id=1141): [title="CC 41"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 144 (id=1142): [title="CC 42"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 145 (id=1143): [title="CC 43"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 146 (id=1144): [title="CC 44"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 147 (id=1145): [title="CC 45"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 148 (id=1146): [title="CC 46"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 149 (id=1147): [title="CC 47"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 150 (id=1148): [title="CC 48"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 151 (id=1149): [title="CC 49"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 152 (id=1150): [title="CC 50"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 153 (id=1151): [title="CC 51"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 154 (id=1152): [title="CC 52"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 155 (id=1153): [title="CC 53"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 156 (id=1154): [title="CC 54"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 157 (id=1155): [title="CC 55"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 158 (id=1156): [title="CC 56"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 159 (id=1157): [title="CC 57"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 160 (id=1158): [title="CC 58"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 161 (id=1159): [title="CC 59"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 162 (id=1160): [title="CC 60"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 163 (id=1161): [title="CC 61"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 164 (id=1162): [title="CC 62"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 165 (id=1163): [title="CC 63"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 166 (id=1164): [title="CC 64"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 167 (id=1165): [title="CC 65"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 168 (id=1166): [title="CC 66"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 169 (id=1167): [title="CC 67"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 170 (id=1168): [title="CC 68"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 171 (id=1169): [title="CC 69"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 172 (id=1170): [title="CC 70"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 173 (id=1171): [title="CC 71"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 174 (id=1172): [title="CC 72"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 175 (id=1173): [title="CC 73"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 176 (id=1174): [title="CC 74"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 177 (id=1175): [title="CC 75"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 178 (id=1176): [title="CC 76"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 179 (id=1177): [title="CC 77"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 180 (id=1178): [title="CC 78"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 181 (id=1179): [title="CC 79"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 182 (id=1180): [title="CC 80"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 183 (id=1181): [title="CC 81"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 184 (id=1182): [title="CC 82"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 185 (id=1183): [title="CC 83"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 186 (id=1184): [title="CC 84"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 187 (id=1185): [title="CC 85"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 188 (id=1186): [title="CC 86"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 189 (id=1187): [title="CC 87"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 190 (id=1188): [title="CC 88"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 191 (id=1189): [title="CC 89"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 192 (id=1190): [title="CC 90"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 193 (id=1191): [title="CC 91"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 194 (id=1192): [title="CC 92"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 195 (id=1193): [title="CC 93"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 196 (id=1194): [title="CC 94"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 197 (id=1195): [title="CC 95"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 198 (id=1196): [title="CC 96"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 199 (id=1197): [title="CC 97"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 200 (id=1198): [title="CC 98"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 201 (id=1199): [title="CC 99"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 202 (id=1200): [title="CC 100"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 203 (id=1201): [title="CC 101"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 204 (id=1202): [title="CC 102"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 205 (id=1203): [title="CC 103"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 206 (id=1204): [title="CC 104"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 207 (id=1205): [title="CC 105"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 208 (id=1206): [title="CC 106"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 209 (id=1207): [title="CC 107"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 210 (id=1208): [title="CC 108"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 211 (id=1209): [title="CC 109"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 212 (id=1210): [title="CC 110"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 213 (id=1211): [title="CC 111"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 214 (id=1212): [title="CC 112"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 215 (id=1213): [title="CC 113"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 216 (id=1214): [title="CC 114"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 217 (id=1215): [title="CC 115"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 218 (id=1216): [title="CC 116"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 219 (id=1217): [title="CC 117"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 220 (id=1218): [title="CC 118"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 221 (id=1219): [title="CC 119"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 222 (id=1220): [title="CC 120"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 223 (id=1221): [title="CC 121"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 224 (id=1222): [title="CC 122"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 225 (id=1223): [title="CC 123"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 226 (id=1224): [title="CC 124"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 227 (id=1225): [title="CC 125"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 228 (id=1226): [title="CC 126"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 229 (id=1227): [title="CC 127"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 230 (id=1300): [title="Last CC"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 231 (id=1301): [title="Voices 1"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 232 (id=1302): [title="Voices 2"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 233 (id=1303): [title="Voices 3"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:     Parameter 234 (id=1304): [title="Voices 4"] [unit=""] [type = Float, default = 0.000000, unit = 0]
+  Info:  Note: This Unit (idx=-1, id=0, name="Root") has 235 parameters: it could be better to split it in sub-units!.
+  Info:  No bypass parameter found. This is an instrument.
+  [Succeeded]
+  
+  [MIDI Mapping]
+  Info:  ===MIDI Mapping ====================================
+  [Succeeded]
+  
+  [MIDI Learn]
+  Info:  ===MIDI Learn ====================================
+  Info:  No MIDI Learn interface supplied!
+  [Succeeded]
+  
+  [Scan Units]
+  Info:  ===Scan Units ====================================
+  Info:  No units found, while controller implements IUnitInfo !!!
+  [Succeeded]
+  
+  [Scan Programs]
+  Info:  ===Scan Programs ====================================
+  Info:  This component does not export any programs.
+  [Succeeded]
+  
+  [Terminate/Initialize]
+  Info:  ===Terminate/Initialize ====================================
+  [Succeeded]
+  
+  [Check Unit Structure]
+  Info:  ===Check Unit Structure ====================================
+  Info:  No units found, while controller implements IUnitInfo !!!
+  Info:  All units have valid parent IDs.
+  [Succeeded]
+  
+  [Valid State Transition 32bits]
+  Info:  ===Valid State Transition 32bits ====================================
+  [Succeeded]
+  
+  [Valid State Transition 64bits]
+  Info:  ===Valid State Transition 64bits ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Bus Consistency]
+  Info:  ===Bus Consistency ====================================
+  [Succeeded]
+  
+  [Bus Activation]
+  Info:  ===Bus Activation ====================================
+  Info:     Bus Activation: Output Audio Bus (0) (kMain)
+  Info:     Bus Activation: Input Event Bus (0) (kMain)
+  [Succeeded]
+  
+  [Check Audio Bus Arrangement]
+  Info:  ===Check Audio Bus Arrangement ====================================
+  Info:     Check Output Audio Bus Arrangement (0)
+  [Succeeded]
+  
+  [SideChain Arrangement]
+  Info:  ===SideChain Arrangement ====================================
+  [Succeeded]
+  
+  [Suspend/Resume]
+  Info:  ===Suspend/Resume ====================================
+  [Succeeded]
+  
+  [Note Expression]
+  Info:  ===Note Expression ====================================
+  Info:  No Note Expression interface supplied!
+  [Succeeded]
+  
+  [Keyswitch]
+  Info:  ===Keyswitch ====================================
+  Info:  No Keyswitch interface supplied!
+  [Succeeded]
+  
+  [ProcessContext Requirements]
+  Info:  ===ProcessContext Requirements ====================================
+  Info:  ProcessContextRequirements:
+  Info:   - None
+  [Succeeded]
+  
+  -------------------------------------------------------------
+  TestSuite : Single Precision (32 bit) Tests
+  -------------------------------------------------------------
+  
+  [Process Test]
+  [Succeeded]
+  
+  [Process function running in another thread]
+  Info:  ===Process function running in another thread ====================================
+  [Succeeded]
+  
+  [Silence Flags]
+  Info:  ===Silence Flags ====================================
+  [Succeeded]
+  
+  [Silence Processing]
+  Info:  ===Silence Processing ====================================
+  [Succeeded]
+  
+  [Parameters Flush (no Buffer)]
+  Info:  ===Parameters Flush (no Buffer) ====================================
+  [Succeeded]
+  
+  [Parameters Flush 2 (only numChannel==0)]
+  Info:  ===Parameters Flush 2 (only numChannel==0) ====================================
+  [Succeeded]
+  
+  [Parameters Flush 2 (no Buffer, no parameter change)]
+  Info:  ===Parameters Flush 2 (no Buffer, no parameter change) ====================================
+  [Succeeded]
+  
+  [Variable Block Size]
+  Info:  ===Variable Block Size ====================================
+  [Succeeded]
+  
+  [Process Format]
+  Info:  ===Process Format ====================================
+  Info:  ***Tested Sample Rates***
+  Info:        22050 Hz - processed successfully!
+  Info:        32000 Hz - processed successfully!
+  Info:        44100 Hz - processed successfully!
+  Info:        48000 Hz - processed successfully!
+  Info:        88200 Hz - processed successfully!
+  Info:        96000 Hz - processed successfully!
+  Info:       192000 Hz - processed successfully!
+  Info:       384000 Hz - processed successfully!
+  Info:    1234.5678 Hz - processed successfully!
+  Info:    12345.678 Hz - processed successfully!
+  Info:    123456.78 Hz - processed successfully!
+  Info:    1234567.8 Hz - processed successfully!
+  [Succeeded]
+  
+  [Parameter Bypass persistence]
+  Info:  ===Parameter Bypass persistence ====================================
+  Info:  This plugin does not have a bypass parameter!!!
+  [Succeeded]
+  
+  [In: Stereo: 2 Channels, Out: Stereo: 2 Channels]
+  Info:  ===In: Stereo: 2 Channels, Out: Stereo: 2 Channels ====================================
+  [Succeeded]
+  
+  [In: Mono: 1 Channels, Out: Mono: 1 Channels]
+  Info:  ===In: Mono: 1 Channels, Out: Mono: 1 Channels ====================================
+  [Succeeded]
+  
+  [Accuracy: Block, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Block, 1 Parameters, Change every100 Samples ====================================
+  [Succeeded]
+  
+  [Accuracy: Sample, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Sample, 1 Parameters, Change every100 Samples ====================================
+  [Succeeded]
+  
+  -------------------------------------------------------------
+  TestSuite : Double Precision (64 bit) Tests
+  -------------------------------------------------------------
+  
+  [Process Test]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Process function running in another thread]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Silence Flags]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Silence Processing]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameters Flush (no Buffer)]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameters Flush 2 (only numChannel==0)]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameters Flush 2 (no Buffer, no parameter change)]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Variable Block Size]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Process Format]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameter Bypass persistence]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [In: Stereo: 2 Channels, Out: Stereo: 2 Channels]
+  Info:  ===In: Stereo: 2 Channels, Out: Stereo: 2 Channels ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [In: Mono: 1 Channels, Out: Mono: 1 Channels]
+  Info:  ===In: Mono: 1 Channels, Out: Mono: 1 Channels ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Accuracy: Block, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Block, 1 Parameters, Change every100 Samples ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Accuracy: Sample, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Sample, 1 Parameters, Change every100 Samples ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  -------------------------------------------------------------
+  Result: 47 tests passed, 0 tests failed
+  -------------------------------------------------------------
+  [SMTG] Validator finished.
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/vstgui4/vstgui/standalone/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  TinyJS_Functions.cpp
+  TinyJS_MathFunctions.cpp
+  application.cpp
+  async.cpp
+  genericalertbox.cpp
+  TinyJS.cpp
+  drawcontextobject.cpp
+  shareduiresources.cpp
+  adler32.c
+  compress.c
+  crc32.c
+  deflate.c
+  gzclose.c
+  gzlib.c
+  gzread.c
+  uidescriptionwindowcontroller.cpp
+  gzwrite.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  inflate.c
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/genericalertbox.cpp')
+  
+  infback.c
+  inftrees.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  inffast.c
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/genericalertbox.cpp')
+  
+  trees.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  uncompr.c
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/application.cpp')
+  
+  zutil.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/shareduiresources.cpp')
+  
+  drawable.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/uidescriptionwindowcontroller.cpp')
+  
+  scriptingviewfactory.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/uidescriptionwindowcontroller.cpp')
+  
+  window.cpp
+  value.cpp
+  win32application.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/detail/scriptingviewfactory.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/detail/drawable.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/window.cpp')
+  
+  viewscriptobject.cpp
+  uiscripting.cpp
+  win32commondirectories.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/uiscripting.cpp')
+  
+  win32menu.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/detail/viewscriptobject.cpp')
+  
+  win32preference.cpp
+  win32window.cpp
+     Creating library D:/a/Synth2/Synth2/build/lib/Release/zlib.lib and object D:/a/Synth2/Synth2/build/lib/Release/zlib.exp
+  zlib.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\zlib.dll
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/platform/win32/win32window.cpp')
+  
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  minigzip.c
+  example.c
+  vstgui_standalone.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui_standalone.lib
+  vstgui_uiscripting.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui_uiscripting.lib
+  minigzip.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\minigzip.exe
+  example.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\example.exe
+  Building Custom Rule D:/a/Synth2/Synth2/OxoSynth2VST3/CMakeLists.txt

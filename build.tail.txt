@@ -1,0 +1,200 @@
+  
+  [Parameters Flush 2 (no Buffer, no parameter change)]
+  Info:  ===Parameters Flush 2 (no Buffer, no parameter change) ====================================
+  [Succeeded]
+  
+  [Variable Block Size]
+  Info:  ===Variable Block Size ====================================
+  [Succeeded]
+  
+  [Process Format]
+  Info:  ===Process Format ====================================
+  Info:  ***Tested Sample Rates***
+  Info:        22050 Hz - processed successfully!
+  Info:        32000 Hz - processed successfully!
+  Info:        44100 Hz - processed successfully!
+  Info:        48000 Hz - processed successfully!
+  Info:        88200 Hz - processed successfully!
+  Info:        96000 Hz - processed successfully!
+  Info:       192000 Hz - processed successfully!
+  Info:       384000 Hz - processed successfully!
+  Info:    1234.5678 Hz - processed successfully!
+  Info:    12345.678 Hz - processed successfully!
+  Info:    123456.78 Hz - processed successfully!
+  Info:    1234567.8 Hz - processed successfully!
+  [Succeeded]
+  
+  [Parameter Bypass persistence]
+  Info:  ===Parameter Bypass persistence ====================================
+  Info:  This plugin does not have a bypass parameter!!!
+  [Succeeded]
+  
+  [In: Stereo: 2 Channels, Out: Stereo: 2 Channels]
+  Info:  ===In: Stereo: 2 Channels, Out: Stereo: 2 Channels ====================================
+  [Succeeded]
+  
+  [In: Mono: 1 Channels, Out: Mono: 1 Channels]
+  Info:  ===In: Mono: 1 Channels, Out: Mono: 1 Channels ====================================
+  [Succeeded]
+  
+  [Accuracy: Block, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Block, 1 Parameters, Change every100 Samples ====================================
+  [Succeeded]
+  
+  [Accuracy: Sample, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Sample, 1 Parameters, Change every100 Samples ====================================
+  [Succeeded]
+  
+  -------------------------------------------------------------
+  TestSuite : Double Precision (64 bit) Tests
+  -------------------------------------------------------------
+  
+  [Process Test]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Process function running in another thread]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Silence Flags]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Silence Processing]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameters Flush (no Buffer)]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameters Flush 2 (only numChannel==0)]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameters Flush 2 (no Buffer, no parameter change)]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Variable Block Size]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Process Format]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Parameter Bypass persistence]
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [In: Stereo: 2 Channels, Out: Stereo: 2 Channels]
+  Info:  ===In: Stereo: 2 Channels, Out: Stereo: 2 Channels ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [In: Mono: 1 Channels, Out: Mono: 1 Channels]
+  Info:  ===In: Mono: 1 Channels, Out: Mono: 1 Channels ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Accuracy: Block, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Block, 1 Parameters, Change every100 Samples ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  [Accuracy: Sample, 1 Parameters, Change every100 Samples]
+  Info:  ===Accuracy: Sample, 1 Parameters, Change every100 Samples ====================================
+  Info:  64bit Audio Processing not supported.
+  [Succeeded]
+  
+  -------------------------------------------------------------
+  Result: 47 tests passed, 0 tests failed
+  -------------------------------------------------------------
+  [SMTG] Validator finished.
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/third_party/vst3sdk/vstgui4/vstgui/standalone/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  TinyJS_Functions.cpp
+  TinyJS_MathFunctions.cpp
+  application.cpp
+  async.cpp
+  genericalertbox.cpp
+  TinyJS.cpp
+  drawcontextobject.cpp
+  shareduiresources.cpp
+  adler32.c
+  compress.c
+  crc32.c
+  deflate.c
+  gzclose.c
+  gzlib.c
+  gzread.c
+  uidescriptionwindowcontroller.cpp
+  gzwrite.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  inflate.c
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/genericalertbox.cpp')
+  
+  infback.c
+  inftrees.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  inffast.c
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/genericalertbox.cpp')
+  
+  trees.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  uncompr.c
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/application.cpp')
+  
+  zutil.c
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/shareduiresources.cpp')
+  
+  drawable.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/uidescriptionwindowcontroller.cpp')
+  
+  scriptingviewfactory.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\controls\ctextlabel.h(69,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/uidescriptionwindowcontroller.cpp')
+  
+  window.cpp
+  value.cpp
+  win32application.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/detail/scriptingviewfactory.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/detail/drawable.cpp')
+  
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/window.cpp')
+  
+  viewscriptobject.cpp
+  uiscripting.cpp
+  win32commondirectories.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/uiscripting.cpp')
+  
+  win32menu.cpp
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\uidescription-scripting\vstgui_uiscripting.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/uidescription-scripting/detail/viewscriptobject.cpp')
+  
+  win32preference.cpp
+  win32window.cpp
+     Creating library D:/a/Synth2/Synth2/build/lib/Release/zlib.lib and object D:/a/Synth2/Synth2/build/lib/Release/zlib.exp
+  zlib.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\zlib.dll
+D:\a\Synth2\Synth2\third_party\vst3sdk\vstgui4\vstgui\lib\cviewcontainer.h(180,7): warning C4996: 'VSTGUI::CView::onWheel': Use CView::onMouseWheelEvent instead [D:\a\Synth2\Synth2\build\vst3sdk\VSTGUI.build\vstgui\standalone\vstgui_standalone.vcxproj]
+  (compiling source file '../../../../../third_party/vst3sdk/vstgui4/vstgui/standalone/source/platform/win32/win32window.cpp')
+  
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  Building Custom Rule D:/a/Synth2/Synth2/build/_deps/oxo_zlib-src/CMakeLists.txt
+  minigzip.c
+  example.c
+  vstgui_standalone.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui_standalone.lib
+  vstgui_uiscripting.vcxproj -> D:\a\Synth2\Synth2\build\lib\Release\vstgui_uiscripting.lib
+  minigzip.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\minigzip.exe
+  example.vcxproj -> D:\a\Synth2\Synth2\build\bin\Release\example.exe
+  Building Custom Rule D:/a/Synth2/Synth2/OxoSynth2VST3/CMakeLists.txt
