@@ -4,6 +4,14 @@
 // only). Same parameters, same patch library, same hooks into
 // SynthEditorCore; the look is its own.
 
+// VSTGUI tests `#elif WIN32 || WINDOWS ...`; the SDK sets WINDOWS to 1, but
+// by the time we get here (EditorCore/Storage.hpp has pulled in windows.h) it
+// can be left defined as nothing, which MSVC rejects (C1017). Restore it.
+#ifdef WINDOWS
+#undef WINDOWS
+#endif
+#define WINDOWS 1
+
 #include "public.sdk/source/vst/vstguieditor.h"
 
 #include <memory>

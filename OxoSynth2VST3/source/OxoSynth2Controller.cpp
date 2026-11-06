@@ -13,9 +13,6 @@
 #if SMTG_OS_MACOS
 #include "OxoSynth2EditorView.h"
 #elif defined(OXO_WIN_EDITOR)
-#define OXO_DBG2(x) #x
-#define OXO_DBG(x) OXO_DBG2(x)
-#pragma message("DBG WIN32=[" OXO_DBG(WIN32) "] WINDOWS=[" OXO_DBG(WINDOWS) "] SMTG_OS_WINDOWS=[" OXO_DBG(SMTG_OS_WINDOWS) "] _WIN32=[" OXO_DBG(_WIN32) "]")
 #include "win/OxoSynth2WinEditor.h"
 #endif
 
