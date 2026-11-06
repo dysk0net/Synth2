@@ -166,7 +166,7 @@ else()
     target_compile_features(OxoSynth2VST3 PRIVATE cxx_std_20)
     # MSVC only defines M_PI (EngineCore) with _USE_MATH_DEFINES; NOMINMAX
     # keeps windows.h's min / max macros away from std::min / std::max.
-    target_compile_definitions(OxoSynth2VST3 PRIVATE _USE_MATH_DEFINES NOMINMAX WIN32_LEAN_AND_MEAN)
+    target_compile_definitions(OxoSynth2VST3 PRIVATE _USE_MATH_DEFINES NOMINMAX WIN32_LEAN_AND_MEAN _SILENCE_CXX20_U8PATH_DEPRECATION_WARNING)
     target_link_libraries(OxoSynth2VST3 PRIVATE sdk ${OXO_ZLIB_TARGET} ole32 shell32 uuid)
     if(WIN32 AND OXO_WIN_EDITOR)
         target_link_libraries(OxoSynth2VST3 PRIVATE vstgui_support)
