@@ -10,6 +10,9 @@
 #include "vstgui/lib/cdrawcontext.h"
 #include "vstgui/lib/cframe.h"
 #include "vstgui/lib/cfont.h"
+#include "vstgui/lib/cgradient.h"
+#include "vstgui/lib/cgraphicspath.h"
+#include "vstgui/lib/coffscreencontext.h"
 #include "vstgui/lib/controls/coptionmenu.h"
 #include "vstgui/lib/cview.h"
 #include "vstgui/lib/events.h"
@@ -22,14 +25,17 @@
 #endif
 #include <windows.h>
 #include <commdlg.h>
+#include <shellapi.h>
 
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <functional>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -39,18 +45,15 @@ namespace oxo {
 
 namespace {
 
-// ---- look -----------------------------------------------------------------
+using namespace s2;
 
-const CColor kStripText{214, 220, 230, 255};
-const CColor kKnob{18, 20, 24, 255};
-const CColor kKnobEdge{92, 100, 114, 255};
-const CColor kTrackOff{64, 70, 80, 255};
-const CColor kLed{92, 224, 112, 255};
-const CColor kLedOff{40, 74, 46, 255};
-const CColor kLabel{170, 178, 192, 255};
-const CColor kLcdBg{12, 38, 44, 255};
-const CColor kLcdText{110, 232, 230, 255};
-const CColor kBtn{70, 77, 90, 255};
+// The Mac panel's parameter numbering (Shared/SynthPanelView.swift) is the
+// engine's: the layout below uses those numbers directly.
+static_assert(kOsc1Shape == 0 && kOsc2Pitch == 2 && kFilterType == 14 && kPlayMode == 38 && kLfo1Dest == 41 &&
+                  kEffectType == 78 && kCtrlSrc1 == 86 && kCtrlAssign2 == 89 && kPan == 90 && kOscPhase == 91 &&
+                  kPolyphony == 94 && kSubGain == 95 && kSubShape == 96 && kSubOctave == 97 && kDelayTone == 98,
+              "parameter numbering changed: re-check the Windows panel layout");
+
 
 // ---- user settings (colours, size), remembered ---------------------------------
 // One setting for every instance, in %APPDATA%\Oxo Music\Oxo Synth2:
@@ -110,130 +113,127 @@ void SaveScale() {
 
 CColor AccentColor() { return CColor(uint8_t(gAccent >> 16), uint8_t(gAccent >> 8), uint8_t(gAccent), 255); }
 
+
+// ---- look ---------------------------------------------------------------------
+// Fixed colours are Synth1's (Shared/SynthTheme.swift "Synth2" theme); the
+// panel colour (BG Color) and the knob dial / ring colour (Color) are the
+// user's. Section edges / headers / label ink derive from the panel colour.
+
+const CColor kKnobBody{23, 23, 23, 255};
+const CColor kKnobHi{44, 44, 44, 255};
+const CColor kButton{54, 54, 48, 255};
+const CColor kButtonText{237, 237, 237, 255};
+const CColor kLedOn{92, 242, 102, 255};
+const CColor kLedOff{28, 73, 31, 255};
+const CColor kRadioOn{255, 51, 26, 255};
+const CColor kRadioOff{107, 21, 11, 255};
+const CColor kDisplayText{115, 242, 255, 255};
+const CColor kLcdTop{18, 61, 64, 255};
+const CColor kLcdBottom{5, 23, 26, 255};
+const CColor kLcdText{224, 255, 255, 255};
+const CColor kRed{173, 15, 13, 255};
+const CColor kBlack{0, 0, 0, 255};
+const CColor kHeaderText{230, 224, 184, 255};
+
 CColor Shade(uint32_t rgb, int delta) {
     const auto ch = [&](int shift) { return uint8_t(std::clamp(int((rgb >> shift) & 0xFF) + delta, 0, 255)); };
     return CColor(ch(16), ch(8), ch(0), 255);
 }
-// Lighter on dark backgrounds, darker on light ones, so panels always stand out a little.
 bool BackgroundIsLight() {
     const int r = int((gBackground >> 16) & 0xFF), g = int((gBackground >> 8) & 0xFF), b = int(gBackground & 0xFF);
     return (r * 299 + g * 587 + b * 114) / 1000 > 140;
 }
 CColor BgColor() { return Shade(gBackground, 0); }
-CColor PanelColor() { return Shade(gBackground, BackgroundIsLight() ? -14 : 7); }
-CColor PanelEdge() { return Shade(gBackground, BackgroundIsLight() ? -34 : 18); }
-CColor PanelHeader() { return Shade(gBackground, BackgroundIsLight() ? -48 : 30); }
-CColor HeaderText() { return BackgroundIsLight() ? CColor(30, 33, 38, 255) : kStripText; }
-CColor LabelText() { return BackgroundIsLight() ? CColor(70, 76, 88, 255) : kLabel; }
+CColor Ink() { return BackgroundIsLight() ? CColor(26, 26, 15, 255) : CColor(228, 231, 236, 255); }
+CColor HeaderFill() { return BackgroundIsLight() ? CColor(59, 59, 56, 255) : Shade(gBackground, 30); }
+CColor EdgeColor() { return BackgroundIsLight() ? Shade(gBackground, -100) : Shade(gBackground, 48); }
+CColor Faint(const CColor &c, double a) { return CColor(c.red, c.green, c.blue, uint8_t(255 * a)); }
 
-constexpr CCoord kCellW = 54, kCellH = 60, kStripH = 18, kPad = 6, kGap = 6;
-constexpr CCoord kHeaderH = 62, kMaxRowWidth = 980;
+// Fonts (never freed: they outlive the DLL's VSTGUI shutdown order).
+CFontRef Font(const char *face, double size, int style) {
+    static std::map<std::string, CFontDesc *> cache;
+    const std::string key = std::string(face) + "/" + std::to_string(size) + "/" + std::to_string(style);
+    CFontDesc *&f = cache[key];
+    if (!f) f = new CFontDesc(face, size, style);
+    return f;
+}
+CFontRef LabelFont() { return Font("Segoe UI", 10, 0); }
+CFontRef ButtonFont() { return Font("Segoe UI", 10, kBoldFace); }
+CFontRef MonoFont(double size, bool bold = true) { return Font("Consolas", size, bold ? kBoldFace : 0); }
 
-enum class Kind { Knob, Toggle, Step };
-
-struct Item {
-    int id;
-    Kind kind;
-    const char *label; // nullptr = the effect-aware display name
-};
-struct Section {
-    const char *title;
-    int cols;
-    std::vector<Item> items;
-};
-
-using namespace s2;
-
-// Order of items = row-major in the section's grid.
-const std::vector<Section> &Sections() {
-    static const std::vector<Section> s = {
-        {"OSC", 6,
-         {{kOsc1Shape, Kind::Step, "osc1"}, {kOsc2Shape, Kind::Step, "osc2"}, {kOsc2Pitch, Kind::Knob, "pitch"},
-          {kOsc2Fine, Kind::Knob, "fine"}, {kOsc2KbdTrack, Kind::Toggle, "kbd trk"}, {kOscMix, Kind::Knob, "mix"},
-          {kOsc2Sync, Kind::Toggle, "sync"}, {kOsc2Ring, Kind::Toggle, "ring"}, {kOscPulseWidth, Kind::Knob, "pw"},
-          {kOscKeyShift, Kind::Knob, "key shift"}, {kOsc1FM, Kind::Knob, "fm"}, {kOsc1Detune, Kind::Knob, "detune"},
-          {kSubGain, Kind::Knob, "sub"}, {kSubShape, Kind::Step, "sub shape"}, {kSubOctave, Kind::Toggle, "sub -2"},
-          {kOscFineTune, Kind::Knob, "tune"}, {kOscPhase, Kind::Knob, "phase"}}},
-        {"MOD ENV", 5,
-         {{kModEnvOn, Kind::Toggle, "on"}, {kModEnvDest, Kind::Step, "dest"}, {kModEnvAmount, Kind::Knob, "amount"},
-          {kModEnvAttack, Kind::Knob, "attack"}, {kModEnvDecay, Kind::Knob, "decay"}}},
-        {"LFO 1", 4,
-         {{kLfo1On, Kind::Toggle, "on"}, {kLfo1Dest, Kind::Step, "dest"}, {kLfo1Type, Kind::Step, "type"},
-          {kLfo1Speed, Kind::Knob, "speed"}, {kLfo1Depth, Kind::Knob, "depth"}, {kLfo1TempoSync, Kind::Toggle, "tempo"},
-          {kLfo1KeySync, Kind::Toggle, "key sync"}}},
-        {"LFO 2", 4,
-         {{kLfo2On, Kind::Toggle, "on"}, {kLfo2Dest, Kind::Step, "dest"}, {kLfo2Type, Kind::Step, "type"},
-          {kLfo2Speed, Kind::Knob, "speed"}, {kLfo2Depth, Kind::Knob, "depth"}, {kLfo2TempoSync, Kind::Toggle, "tempo"},
-          {kLfo2KeySync, Kind::Toggle, "key sync"}}},
-        {"WHEEL", 3,
-         {{kWheelSpeedSens, Kind::Knob, "sens 1"}, {kWheelAmountSens, Kind::Knob, "sens 2"},
-          {kBendRange, Kind::Knob, "bend rng"}}},
-        {"AMP", 6,
-         {{kAmpAttack, Kind::Knob, "attack"}, {kAmpDecay, Kind::Knob, "decay"}, {kAmpSustain, Kind::Knob, "sustain"},
-          {kAmpRelease, Kind::Knob, "release"}, {kAmpGain, Kind::Knob, "gain"}, {kAmpVelSens, Kind::Knob, "vel sens"}}},
-        {"FILTER", 7,
-         {{kFilterType, Kind::Step, "type"}, {kFilterFreq, Kind::Knob, "freq"}, {kFilterRes, Kind::Knob, "res"},
-          {kFilterAmount, Kind::Knob, "amount"}, {kFilterKbdTrack, Kind::Knob, "kbd trk"},
-          {kFilterSat, Kind::Knob, "sat"}, {kFilterVelSwitch, Kind::Toggle, "vel sw"},
-          {kFilterAttack, Kind::Knob, "attack"}, {kFilterDecay, Kind::Knob, "decay"},
-          {kFilterSustain, Kind::Knob, "sustain"}, {kFilterRelease, Kind::Knob, "release"}}},
-        {"ARP", 5,
-         {{kArpOn, Kind::Toggle, "on"}, {kArpType, Kind::Step, "type"}, {kArpOctRange, Kind::Step, "oct"},
-          {kArpBeat, Kind::Step, "beat"}, {kArpGate, Kind::Knob, "gate"}}},
-        {"PLAY", 5,
-         {{kPlayMode, Kind::Step, "mode"}, {kPortaTime, Kind::Knob, "porta"}, {kPortaAuto, Kind::Toggle, "auto"},
-          {kPolyphony, Kind::Knob, "poly"}, {kPan, Kind::Knob, "pan"}}},
-        {"UNISON", 6,
-         {{kUnisonOn, Kind::Toggle, "on"}, {kUnisonVoices, Kind::Knob, "voices"}, {kUnisonDetune, Kind::Knob, "detune"},
-          {kUnisonPitch, Kind::Knob, "pitch"}, {kUnisonPan, Kind::Knob, "pan"}, {kUnisonPhase, Kind::Knob, "phase"}}},
-        {"EFFECT", 5,
-         {{kEffectOn, Kind::Toggle, "on"}, {kEffectType, Kind::Step, "type"}, {kEffectCtrl1, Kind::Knob, nullptr},
-          {kEffectCtrl2, Kind::Knob, nullptr}, {kEffectLevel, Kind::Knob, nullptr}}},
-        {"EQ", 4,
-         {{kEqTone, Kind::Knob, "tone"}, {kEqFreq, Kind::Knob, "freq"}, {kEqLevel, Kind::Knob, "level"},
-          {kEqQ, Kind::Knob, "Q"}}},
-        {"DELAY", 7,
-         {{kDelayOn, Kind::Toggle, "on"}, {kDelayType, Kind::Step, "type"}, {kDelayTime, Kind::Step, "time"},
-          {kDelayFeedback, Kind::Knob, "feedback"}, {kDelayDryWet, Kind::Knob, "dry/wet"},
-          {kDelaySpread, Kind::Knob, "spread"}, {kDelayTone, Kind::Knob, "tone"}}},
-        {"CHORUS", 7,
-         {{kChorusOn, Kind::Toggle, "on"}, {kChorusType, Kind::Step, "type"}, {kChorusTime, Kind::Knob, "time"},
-          {kChorusDepth, Kind::Knob, "depth"}, {kChorusRate, Kind::Knob, "rate"},
-          {kChorusFeedback, Kind::Knob, "feedback"}, {kChorusLevel, Kind::Knob, "level"}}},
-    };
-    return s;
+// Text widths for layout (valid while an editor is open).
+SharedPointer<COffscreenContext> gMeasure;
+CCoord TextWidth(const std::string &s, CFontRef font) {
+    if (!gMeasure) gMeasure = COffscreenContext::create(CPoint(8, 8), 1.0);
+    if (gMeasure) {
+        gMeasure->setFont(font);
+        return gMeasure->getStringWidth(s.c_str());
+    }
+    return double(s.size()) * 5.5;
 }
 
 int DefaultValue(int id) {
     return id == kVolumeParamId ? kVolumeParam.def : kInitPatchValues[size_t(std::clamp(id, 0, int(kParamCount) - 1))];
 }
 
-// ---- controls ---------------------------------------------------------------
+CRect Around(double cx, double cy, double w, double h) { return CRect(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2); }
+
+// A rounded rectangle with a vertical gradient and a border.
+void Face(CDrawContext *dc, const CRect &r, double radius, const CColor &top, const CColor &bottom, const CColor &border,
+          double borderWidth = 1.0) {
+    dc->setDrawMode(kAntiAliasing);
+    if (auto path = owned(dc->createRoundRectGraphicsPath(r, radius))) {
+        if (auto gradient = owned(CGradient::create(0.0, 1.0, top, bottom)))
+            dc->fillLinearGradient(path, *gradient, CPoint(r.left, r.top), CPoint(r.left, r.bottom));
+        dc->setFrameColor(border);
+        dc->setLineWidth(borderWidth);
+        dc->drawGraphicsPath(path, CDrawContext::kPathStroked);
+    }
+}
+CColor Scaled(const CColor &c, double f) { return CColor(uint8_t(c.red * f), uint8_t(c.green * f), uint8_t(c.blue * f), 255); }
+void ButtonFace(CDrawContext *dc, const CRect &r, const CColor &fill = kButton) {
+    Face(dc, r, 3, Scaled(fill, 1.12), Scaled(fill, 0.9), Faint(kBlack, 0.75));
+}
+void Text(CDrawContext *dc, const std::string &s, const CRect &r, CFontRef f, const CColor &c, CHoriTxtAlign a = kCenterText) {
+    dc->setFont(f);
+    dc->setFontColor(c);
+    dc->drawString(s.c_str(), r, a, true);
+}
+
+// ---- controls -----------------------------------------------------------------
+
+struct MenuGroup {
+    std::string title; // "" = items at the menu's top level
+    std::vector<std::pair<int, std::string>> items;
+};
 
 // Everything a control needs from the panel.
 struct Env {
     OxoSynth2Controller *c = nullptr;
     std::function<void(int)> readout; // show "name: value" on the LCD
+    // Pop up a menu under `where` (panel coordinates); picking calls back with the item's value.
+    std::function<void(const CPoint &, std::vector<MenuGroup>, std::function<void(int)>)> popup;
 };
 
 class ParamView : public CView {
 public:
-    ParamView(const CRect &r, Env &env, int id, const char *label) : CView(r), env_(env), id_(id), label_(label ? label : "") {
-        const ParamInfo &p = Info(id);
-        min_ = p.min;
-        max_ = p.max;
-        value_ = env.c->NativeValue(id);
+    ParamView(const CRect &r, Env &env, int id) : CView(r), env_(env), id_(id) {
+        if (id >= 0) {
+            const ParamInfo &p = Info(id);
+            min_ = p.min;
+            max_ = p.max;
+            value_ = env.c->NativeValue(id);
+        }
     }
-
     // Pulled from the controller (host automation, patch loads).
     void Sync() {
+        if (id_ < 0) return;
         const int32_t v = env_.c->NativeValue(id_);
         if (v != value_) {
             value_ = v;
             invalid();
         }
     }
-    int Id() const { return id_; }
 
 protected:
     void Set(int v) {
@@ -249,55 +249,62 @@ protected:
         fn();
         env_.c->EndEdit(id_);
     }
-    std::string Label() const {
-        if (!label_.empty()) return label_;
-        return DisplayName(id_, env_.c->NativeValue(kEffectType));
+    // Step through a choice parameter, wrapping.
+    void Cycle(int dir) {
+        int v = value_ + dir;
+        if (v > max_) v = min_;
+        if (v < min_) v = max_;
+        Edit([&] { Set(v); });
     }
     std::string ValueText() const {
         const int sync = TempoSyncSwitch(id_);
         return FormatParam(id_, value_, sync >= 0 && env_.c->NativeValue(sync), env_.c->NativeValue(kEffectType));
     }
-    void DrawLabel(CDrawContext *dc, const CRect &cell) const {
-        CRect r(cell.left, cell.bottom - 14, cell.right, cell.bottom);
-        dc->setFont(kNormalFontSmaller);
-        dc->setFontColor(LabelText());
-        dc->drawString(Label().c_str(), r, kCenterText);
-    }
+    CPoint Local(const CPoint &parentPos) const { return CPoint(parentPos.x - getViewSize().left, parentPos.y - getViewSize().top); }
 
     Env &env_;
     int id_;
-    std::string label_;
     int min_ = 0, max_ = 1, value_ = 0;
 };
 
+// ---- knob ---------------------------------------------------------------------
+// Synth1's: a dark body, a dial line (the user's Color) and an 11-dot ring over
+// the -140..+140 degree travel that lights up to the value (the same colour).
+
 class Knob : public ParamView {
 public:
-    using ParamView::ParamView;
+    Knob(double cx, double cy, Env &env, int id, std::string label, double size = 24)
+        : ParamView(CRect(cx - 22, cy - std::ceil(size * 0.65) - 2, cx + 22, cy + size / 2 + 14), env, id), label_(std::move(label)), size_(size) {
+        cy_ = std::ceil(size * 0.65) + 2;
+    }
 
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
-        const CCoord cx = v.left + v.getWidth() / 2, cy = v.top + 26, r = 17;
+        const double cx = v.left + v.getWidth() / 2, cy = v.top + cy_, r = size_ / 2;
+        const double frac = max_ > min_ ? double(value_ - min_) / double(max_ - min_) : 0.0;
         dc->setDrawMode(kAntiAliasing);
-        dc->setFillColor(kKnob);
-        dc->setFrameColor(kKnobEdge);
-        dc->setLineWidth(1.5);
-        CRect disc(cx - r + 3, cy - r + 3, cx + r - 3, cy + r - 3);
-        dc->drawEllipse(disc, kDrawFilledAndStroked);
-
-        const double t = max_ > min_ ? double(value_ - min_) / double(max_ - min_) : 0.0;
-        constexpr int kDots = 27;
-        for (int i = 0; i < kDots; ++i) {
-            const double a = (135.0 + 270.0 * i / (kDots - 1)) * M_PI / 180.0;
-            const bool on = double(i) / (kDots - 1) <= t + 1e-9 && value_ != min_;
-            dc->setFillColor(on ? AccentColor() : kTrackOff);
-            const CCoord px = cx + std::cos(a) * (r + 1), py = cy + std::sin(a) * (r + 1);
-            dc->drawEllipse(CRect(px - 1.4, py - 1.4, px + 1.4, py + 1.4), kDrawFilled);
+        const CColor accent = AccentColor();
+        for (int i = 0; i < 11; ++i) {
+            const double a = (-140.0 + 28.0 * i) * M_PI / 180.0, rr = size_ * 0.65 - 1.5;
+            const bool lit = value_ != min_ && double(i) / 10.0 <= frac + 1e-6;
+            dc->setFillColor(lit ? accent : Faint(Ink(), 0.3));
+            const double px = cx + std::sin(a) * rr, py = cy - std::cos(a) * rr;
+            dc->drawEllipse(CRect(px - 1.0, py - 1.0, px + 1.0, py + 1.0), kDrawFilled);
         }
-        const double a = (135.0 + 270.0 * t) * M_PI / 180.0;
-        dc->setFrameColor(AccentColor());
+        dc->setFillColor(Faint(kBlack, 0.3));
+        dc->drawEllipse(CRect(cx - r + 1, cy - r + 1, cx + r + 1, cy + r + 1), kDrawFilled); // soft shadow
+        dc->setFillColor(kKnobBody);
+        dc->setFrameColor(Faint(EdgeColor(), 0.6));
+        dc->setLineWidth(1.4);
+        dc->drawEllipse(CRect(cx - r, cy - r, cx + r, cy + r), kDrawFilledAndStroked);
+        dc->setFillColor(kKnobHi);
+        dc->drawEllipse(CRect(cx - r * 0.7, cy - r * 0.75, cx - r * 0.05, cy - r * 0.2), kDrawFilled);
+        const double a = (-140.0 + 280.0 * frac) * M_PI / 180.0;
+        dc->setFrameColor(accent);
         dc->setLineWidth(2.0);
-        dc->drawLine(CPoint(cx + std::cos(a) * 3, cy + std::sin(a) * 3), CPoint(cx + std::cos(a) * (r - 5), cy + std::sin(a) * (r - 5)));
-        DrawLabel(dc, v);
+        dc->drawLine(CPoint(cx + std::sin(a) * r * 0.12, cy - std::cos(a) * r * 0.12),
+                     CPoint(cx + std::sin(a) * r * 0.74, cy - std::cos(a) * r * 0.74));
+        if (!label_.empty()) Text(dc, label_, CRect(v.left, cy + r + 1, v.right, cy + r + 13), LabelFont(), Ink());
         setDirty(false);
     }
 
@@ -317,7 +324,7 @@ public:
     }
     void onMouseMoveEvent(MouseMoveEvent &e) override {
         if (!dragging_) return;
-        const double px = e.modifiers.has(ModifierKey::Shift) ? 1000.0 : 160.0; // pixels for the full range
+        const double px = e.modifiers.has(ModifierKey::Shift) ? 900.0 : 180.0; // pixels for the full range
         Set(startValue_ + int(std::lround((startY_ - e.mousePosition.y) * double(max_ - min_) / px)));
         e.consumed = true;
     }
@@ -327,9 +334,8 @@ public:
     }
     void onMouseCancelEvent(MouseCancelEvent &) override { Finish(); }
     void onMouseWheelEvent(MouseWheelEvent &e) override {
-        const int range = max_ - min_;
-        const int step = e.modifiers.has(ModifierKey::Shift) ? 1 : std::max(1, range / 40);
         if (e.deltaY == 0) return;
+        const int step = e.modifiers.has(ModifierKey::Shift) ? 1 : std::max(1, (max_ - min_) / 40);
         Edit([&] { Set(value_ + (e.deltaY > 0 ? step : -step)); });
         e.consumed = true;
     }
@@ -341,26 +347,31 @@ private:
         dragging_ = false;
         env_.c->EndEdit(id_);
     }
-    bool dragging_ = false;
-    double startY_ = 0;
+    std::string label_;
+    double size_, cy_ = 0, startY_ = 0;
     int startValue_ = 0;
+    bool dragging_ = false;
 };
 
+// ---- buttons ------------------------------------------------------------------
+
+// Dark push button with a LED: a parameter switch.
 class Toggle : public ParamView {
 public:
-    using ParamView::ParamView;
+    Toggle(double cx, double cy, double w, Env &env, int id, std::string title)
+        : ParamView(Around(cx, cy, w, 17), env, id), title_(std::move(title)), textW_(TextWidth(title_, ButtonFont())) {}
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
-        const CCoord cx = v.left + v.getWidth() / 2, cy = v.top + 24;
-        dc->setDrawMode(kAntiAliasing);
+        ButtonFace(dc, v);
+        const double total = 5 + 3 + textW_, x = v.left + (v.getWidth() - total) / 2;
         const bool on = value_ != 0;
-        dc->setFillColor(kBtn);
-        dc->setFrameColor(kKnobEdge);
-        dc->setLineWidth(1);
-        dc->drawRect(CRect(cx - 16, cy - 10, cx + 16, cy + 10), kDrawFilledAndStroked);
-        dc->setFillColor(on ? kLed : kLedOff);
-        dc->drawEllipse(CRect(cx - 5, cy - 5, cx + 5, cy + 5), kDrawFilled);
-        DrawLabel(dc, v);
+        if (on) {
+            dc->setFillColor(Faint(kLedOn, 0.35));
+            dc->drawEllipse(CRect(x - 2, v.top + 6.5 - 2, x + 7, v.top + 11.5 + 2), kDrawFilled);
+        }
+        dc->setFillColor(on ? kLedOn : kLedOff);
+        dc->drawRect(CRect(x, v.top + 6, x + 5, v.top + 11), kDrawFilled);
+        Text(dc, title_, CRect(x + 8, v.top, v.right, v.bottom), ButtonFont(), kButtonText, kLeftText);
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
@@ -368,97 +379,428 @@ public:
         Edit([&] { Set(value_ ? 0 : 1); });
         e.consumed = true;
     }
-    void onMouseWheelEvent(MouseWheelEvent &e) override {
-        if (e.deltaY == 0) return;
-        Edit([&] { Set(e.deltaY > 0 ? 1 : 0); });
-        e.consumed = true;
-    }
     void onMouseEnterEvent(MouseEnterEvent &) override { env_.readout(id_); }
+
+private:
+    std::string title_;
+    double textW_;
 };
 
-// Discrete parameter: the formatted value in a box; click = next, Shift-click = back.
-class Step : public ParamView {
+// Dark push button stepping a choice parameter ("type", "dst", "range");
+// Shift-click steps back. LEDs / a display next to it show the value.
+class CycleButton : public ParamView {
 public:
-    using ParamView::ParamView;
+    CycleButton(double cx, double cy, double w, Env &env, int id, std::string title)
+        : ParamView(Around(cx, cy, w, 17), env, id), title_(std::move(title)) {}
     void draw(CDrawContext *dc) override {
-        const CRect v = getViewSize();
-        const CCoord cx = v.left + v.getWidth() / 2, cy = v.top + 24;
-        dc->setDrawMode(kAntiAliasing);
-        dc->setFillColor(kLcdBg);
-        dc->setFrameColor(kKnobEdge);
-        dc->setLineWidth(1);
-        const CRect box(v.left + 2, cy - 11, v.right - 2, cy + 11);
-        dc->drawRect(box, kDrawFilledAndStroked);
-        dc->setFont(kNormalFontSmaller);
-        dc->setFontColor(kLcdText);
-        dc->drawString(ValueText().c_str(), box, kCenterText);
-        (void)cx;
-        DrawLabel(dc, v);
+        ButtonFace(dc, getViewSize());
+        Text(dc, title_, getViewSize(), ButtonFont(), kButtonText);
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
         if (!e.buttonState.isLeft()) return;
-        Move(e.modifiers.has(ModifierKey::Shift) ? -1 : 1);
+        Cycle(e.modifiers.has(ModifierKey::Shift) ? -1 : 1);
         e.consumed = true;
     }
     void onMouseWheelEvent(MouseWheelEvent &e) override {
         if (e.deltaY == 0) return;
-        Move(e.deltaY > 0 ? 1 : -1);
+        Cycle(e.deltaY > 0 ? 1 : -1);
         e.consumed = true;
     }
     void onMouseEnterEvent(MouseEnterEvent &) override { env_.readout(id_); }
 
 private:
-    void Move(int dir) {
-        int v = value_ + dir;
-        if (v > max_) v = min_;
-        if (v < min_) v = max_;
-        Edit([&] { Set(v); });
-    }
+    std::string title_;
 };
 
-class Button : public CView {
+// Plain (non-parameter) push button.
+class PushButton : public CView {
 public:
-    Button(const CRect &r, std::string text, std::function<void(Button &, const MouseDownEvent &)> onClick)
-        : CView(r), text_(std::move(text)), onClick_(std::move(onClick)) {}
+    PushButton(const CRect &r, std::string text, std::function<void(PushButton &)> onClick, const CColor &fill = kButton, double fontSize = 11)
+        : CView(r), text_(std::move(text)), onClick_(std::move(onClick)), fill_(fill), fontSize_(fontSize) {}
     void draw(CDrawContext *dc) override {
-        const CRect v = getViewSize();
-        dc->setDrawMode(kAntiAliasing);
-        dc->setFillColor(kBtn);
-        dc->setFrameColor(kKnobEdge);
-        dc->setLineWidth(1);
-        dc->drawRect(v, kDrawFilledAndStroked);
-        dc->setFont(kNormalFontSmall);
-        dc->setFontColor(kStripText);
-        dc->drawString(text_.c_str(), v, kCenterText);
+        ButtonFace(dc, getViewSize(), fill_);
+        Text(dc, text_, getViewSize(), Font("Segoe UI", fontSize_, kBoldFace), kButtonText);
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
         if (!e.buttonState.isLeft()) return;
-        onClick_(*this, e);
+        onClick_(*this);
         e.consumed = true;
     }
 
 private:
     std::string text_;
-    std::function<void(Button &, const MouseDownEvent &)> onClick_;
+    std::function<void(PushButton &)> onClick_;
+    CColor fill_;
+    double fontSize_;
 };
 
-class Strip : public CView {
+// Synth1's black number badge ("1", "2"); with a parameter it is the LFO's on / off switch.
+class Badge : public ParamView {
 public:
-    Strip(const CRect &r, const char *title) : CView(r), title_(title) {}
+    Badge(double cx, double cy, Env &env, int id, std::string text) : ParamView(Around(cx, cy, 16, 18), env, id), text_(std::move(text)) {}
+    void draw(CDrawContext *dc) override {
+        const bool on = id_ < 0 || value_ != 0;
+        Face(dc, getViewSize(), 2, on ? kBlack : CColor(56, 56, 56, 255), on ? kBlack : CColor(56, 56, 56, 255), CColor(128, 128, 128, 255));
+        const CColor c = on ? (id_ < 0 ? CColor(255, 255, 255, 255) : CColor(255, 217, 89, 255)) : CColor(115, 115, 115, 255);
+        Text(dc, text_, getViewSize(), Font("Segoe UI", 12, kBoldFace), c);
+        setDirty(false);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (id_ < 0 || !e.buttonState.isLeft()) return;
+        Edit([&] { Set(value_ ? 0 : 1); });
+        e.consumed = true;
+    }
+
+private:
+    std::string text_;
+};
+
+// ---- red LED radio lists --------------------------------------------------------
+
+class LedRadio : public ParamView {
+public:
+    struct Option {
+        int value;
+        std::string label;
+    };
+    LedRadio(double cx, double cy, Env &env, int id, std::vector<Option> options, bool horizontal = false, bool ledTrailing = false,
+             bool showLabels = true, double rowHeight = 13)
+        : ParamView(CRect(0, 0, 1, 1), env, id), opts_(std::move(options)), horizontal_(horizontal), trailing_(ledTrailing), showLabels_(showLabels) {
+        std::vector<double> w;
+        for (const Option &o : opts_) w.push_back(7 + (showLabels_ ? 3 + TextWidth(o.label, LabelFont()) : 0));
+        double W = 0, H = 0;
+        if (horizontal_) {
+            for (size_t i = 0; i < w.size(); ++i) W += w[i] + (i ? 8 : 0);
+            H = rowHeight;
+        } else {
+            for (double x : w) W = std::max(W, x);
+            H = rowHeight * double(opts_.size());
+        }
+        double x = 0;
+        for (size_t i = 0; i < opts_.size(); ++i) {
+            if (horizontal_) {
+                rows_.push_back(CRect(x, 0, x + w[i], H));
+                x += w[i] + 8;
+            } else {
+                rows_.push_back(CRect(0, double(i) * rowHeight, W, double(i + 1) * rowHeight));
+            }
+        }
+        setViewSize(Around(cx, cy, W, H));
+        setMouseableArea(getViewSize());
+    }
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
         dc->setDrawMode(kAntiAliasing);
-        dc->setFillColor(PanelColor());
-        dc->setFrameColor(PanelEdge());
+        for (size_t i = 0; i < opts_.size(); ++i) {
+            const CRect r(rows_[i].left + v.left, rows_[i].top + v.top, rows_[i].right + v.left, rows_[i].bottom + v.top);
+            const bool on = value_ == opts_[i].value;
+            const double ledX = trailing_ ? r.right - 7 : r.left, midY = r.top + r.getHeight() / 2;
+            if (on) {
+                dc->setFillColor(Faint(kRadioOn, 0.35));
+                dc->drawEllipse(CRect(ledX - 2.5, midY - 6, ledX + 9.5, midY + 6), kDrawFilled);
+            }
+            dc->setFillColor(on ? kRadioOn : kRadioOff);
+            dc->setFrameColor(Faint(kBlack, 0.5));
+            dc->setLineWidth(0.5);
+            dc->drawEllipse(CRect(ledX, midY - 3.5, ledX + 7, midY + 3.5), kDrawFilledAndStroked);
+            if (showLabels_)
+                Text(dc, opts_[i].label, trailing_ ? CRect(r.left, r.top, r.right - 10, r.bottom) : CRect(r.left + 10, r.top, r.right, r.bottom),
+                     LabelFont(), Ink(), trailing_ ? kRightText : kLeftText);
+        }
+        setDirty(false);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (!e.buttonState.isLeft()) return;
+        const CPoint p = Local(e.mousePosition);
+        for (size_t i = 0; i < opts_.size(); ++i)
+            if (rows_[i].pointInside(p)) {
+                Edit([&] { Set(opts_[i].value); });
+                break;
+            }
+        e.consumed = true;
+    }
+    void onMouseWheelEvent(MouseWheelEvent &e) override {
+        if (e.deltaY == 0) return;
+        Cycle(e.deltaY > 0 ? 1 : -1);
+        e.consumed = true;
+    }
+
+private:
+    std::vector<Option> opts_;
+    std::vector<CRect> rows_; // local to the view
+    bool horizontal_, trailing_, showLabels_;
+};
+
+// ---- waveform buttons -----------------------------------------------------------
+
+enum class Wave { Sine, Saw, Pulse, Square, Tri, Noise, SampleHold, Smooth };
+
+void DrawWave(CDrawContext *dc, Wave w, const CRect &box, const CColor &colour) {
+    const CRect r(box.left + 4, box.top + 3.5, box.right - 4, box.bottom - 3.5);
+    const double x0 = r.left, x1 = r.right, y0 = r.top, y1 = r.bottom, W = r.getWidth(), H = r.getHeight();
+    std::vector<CPoint> pts;
+    switch (w) {
+        case Wave::Sine:
+            for (int i = 0; i <= 24; ++i) pts.emplace_back(x0 + W * i / 24.0, r.top + H / 2 - H / 2 * std::sin(2 * M_PI * i / 24.0));
+            break;
+        case Wave::Saw: pts = {{x0, y1}, {x0, y0}, {x1, y1}}; break;
+        case Wave::Pulse:
+        case Wave::Square: {
+            const double duty = w == Wave::Pulse ? 0.3 : 0.5;
+            pts = {{x0, y1}, {x0, y0}, {x0 + W * duty, y0}, {x0 + W * duty, y1}, {x1, y1}, {x1, y0}};
+            break;
+        }
+        case Wave::Tri: pts = {{x0, y1}, {r.left + W / 2, y0}, {x1, y1}}; break;
+        case Wave::Noise: {
+            static const double ys[] = {0.5, 0.1, 0.8, 0.3, 0.95, 0.2, 0.6, 0.0, 0.7, 0.4, 0.9, 0.25, 0.55};
+            for (int i = 0; i < 13; ++i) pts.emplace_back(x0 + W * i / 12.0, y0 + H * ys[i]);
+            break;
+        }
+        case Wave::SampleHold:
+        case Wave::Smooth: {
+            static const double ys[] = {0.6, 0.1, 0.8, 0.35, 0.95};
+            const double step = W / 5.0, soft = w == Wave::Smooth ? step * 0.35 : 0.0;
+            pts.emplace_back(x0, y0 + H * ys[0]);
+            for (int i = 0; i < 5; ++i) {
+                const double edge = x0 + step * i, level = y0 + H * ys[i];
+                if (i > 0) {
+                    const double prev = y0 + H * ys[i - 1];
+                    if (soft > 0) {
+                        for (int k = 1; k <= 4; ++k) { // eased edge
+                            const double t = k / 4.0, s = t * t * (3 - 2 * t);
+                            pts.emplace_back(edge + soft * t, prev + (level - prev) * s);
+                        }
+                    } else {
+                        pts.emplace_back(edge, prev);
+                        pts.emplace_back(edge, level);
+                    }
+                }
+                pts.emplace_back(x0 + step * (i + 1) - (i < 4 ? soft : 0), level);
+            }
+            break;
+        }
+    }
+    CDrawContext::LineList lines;
+    for (size_t i = 1; i < pts.size(); ++i) lines.push_back({pts[i - 1], pts[i]});
+    dc->setDrawMode(kAntiAliasing);
+    dc->setFrameColor(colour);
+    dc->setLineWidth(1.3);
+    dc->drawLines(lines);
+}
+
+void WaveCell(CDrawContext *dc, const CRect &r, Wave w, bool on) {
+    if (on) {
+        dc->setFillColor(Faint(kDisplayText, 0.3));
+        dc->drawRect(CRect(r.left - 2, r.top - 2, r.right + 2, r.bottom + 2), kDrawFilled);
+    }
+    Face(dc, r, 2, on ? kDisplayText : Scaled(kButton, 1.1), on ? kDisplayText : Scaled(kButton, 0.9), Faint(kBlack, 0.7));
+    DrawWave(dc, w, r, on ? kBlack : CColor(217, 217, 217, 255));
+}
+
+// Oscillator / sub shape grid (2 columns, row-major in value order).
+class WaveRadio : public ParamView {
+public:
+    struct Shape {
+        int value;
+        Wave wave;
+    };
+    WaveRadio(double cx, double cy, Env &env, int id, std::vector<Shape> shapes)
+        : ParamView(Around(cx, cy, 2 * 22 + 2, double((shapes.size() + 1) / 2) * 14 + double((shapes.size() + 1) / 2 - 1) * 2), env, id), shapes_(std::move(shapes)) {}
+    void draw(CDrawContext *dc) override {
+        const CRect v = getViewSize();
+        for (size_t i = 0; i < shapes_.size(); ++i)
+            WaveCell(dc, Cell(i, v), shapes_[i].wave, value_ == shapes_[i].value);
+        setDirty(false);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (!e.buttonState.isLeft()) return;
+        for (size_t i = 0; i < shapes_.size(); ++i)
+            if (Cell(i, getViewSize()).pointInside(e.mousePosition)) {
+                Edit([&] { Set(shapes_[i].value); });
+                break;
+            }
+        e.consumed = true;
+    }
+    void onMouseWheelEvent(MouseWheelEvent &e) override {
+        if (e.deltaY == 0) return;
+        Cycle(e.deltaY > 0 ? 1 : -1);
+        e.consumed = true;
+    }
+
+private:
+    static CRect Cell(size_t i, const CRect &v) {
+        const double x = v.left + double(i % 2) * 24, y = v.top + double(i / 2) * 16;
+        return CRect(x, y, x + 22, y + 14);
+    }
+    std::vector<Shape> shapes_;
+};
+
+// One button showing the current wave; a click steps to the next (LFO waves).
+class WaveCycle : public ParamView {
+public:
+    WaveCycle(double cx, double cy, Env &env, int id, std::vector<Wave> waves) : ParamView(Around(cx, cy, 26, 17), env, id), waves_(std::move(waves)) {}
+    void draw(CDrawContext *dc) override {
+        const size_t i = size_t(std::clamp(value_ - min_, 0, int(waves_.size()) - 1));
+        WaveCell(dc, getViewSize(), waves_[i], true);
+        setDirty(false);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (!e.buttonState.isLeft()) return;
+        Cycle(e.modifiers.has(ModifierKey::Shift) ? -1 : 1);
+        e.consumed = true;
+    }
+    void onMouseWheelEvent(MouseWheelEvent &e) override {
+        if (e.deltaY == 0) return;
+        Cycle(e.deltaY > 0 ? 1 : -1);
+        e.consumed = true;
+    }
+
+private:
+    std::vector<Wave> waves_;
+};
+
+// ---- displays ---------------------------------------------------------------------
+
+// Small cyan-on-dark number / type display ("00" key shift, "16" poly, "ST"
+// delay type): drag vertically or wheel to change, double-click = default;
+// `tapCycles` = a click steps to the next value (type displays); `onTap` = a
+// click calls it instead (effect type menu).
+class ValueDisplay : public ParamView {
+public:
+    ValueDisplay(double cx, double cy, double w, Env &env, int id, bool tapCycles = false, bool twoDigits = false,
+                 std::function<void(ValueDisplay &)> onTap = nullptr)
+        : ParamView(Around(cx, cy, w, 17), env, id), tapCycles_(tapCycles), twoDigits_(twoDigits), onTap_(std::move(onTap)) {}
+    void draw(CDrawContext *dc) override {
+        const CRect v = getViewSize();
+        Face(dc, v, 2, kLcdTop, kLcdBottom, Faint(kBlack, 0.7));
+        char b[16];
+        std::snprintf(b, sizeof b, "%02d", value_);
+        Text(dc, twoDigits_ ? std::string(b) : ValueText(), v, MonoFont(11), kDisplayText);
+        setDirty(false);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (!e.buttonState.isLeft()) return;
+        if (e.clickCount >= 2 && !tapCycles_ && !onTap_) {
+            Edit([&] { Set(DefaultValue(id_)); });
+            e.consumed = true;
+            return;
+        }
+        dragging_ = true;
+        moved_ = false;
+        startY_ = e.mousePosition.y;
+        startValue_ = value_;
+        env_.c->BeginEdit(id_);
+        env_.readout(id_);
+        e.consumed = true;
+    }
+    void onMouseMoveEvent(MouseMoveEvent &e) override {
+        if (!dragging_) return;
+        const int steps = int(std::lround((startY_ - e.mousePosition.y) / 8.0));
+        if (steps != 0) moved_ = true;
+        if (moved_ && !onTap_) Set(startValue_ + steps);
+        e.consumed = true;
+    }
+    void onMouseUpEvent(MouseUpEvent &e) override {
+        Finish();
+        e.consumed = true;
+    }
+    void onMouseCancelEvent(MouseCancelEvent &) override { Finish(); }
+    void onMouseWheelEvent(MouseWheelEvent &e) override {
+        if (e.deltaY == 0) return;
+        Edit([&] { Set(value_ + (e.deltaY > 0 ? 1 : -1)); });
+        e.consumed = true;
+    }
+    void onMouseEnterEvent(MouseEnterEvent &) override { env_.readout(id_); }
+    int Value() const { return value_; }
+    void Pick(int v) { Edit([&] { Set(v); }); }
+
+private:
+    void Finish() {
+        if (!dragging_) return;
+        dragging_ = false;
+        env_.c->EndEdit(id_);
+        if (!moved_) {
+            if (onTap_) onTap_(*this);
+            else if (tapCycles_) Cycle(1);
+        }
+    }
+    bool tapCycles_, twoDigits_, dragging_ = false, moved_ = false;
+    double startY_ = 0;
+    int startValue_ = 0;
+    std::function<void(ValueDisplay &)> onTap_;
+};
+
+// MIDI controller source / assign: a display-styled pop-up menu.
+class MenuDisplay : public ParamView {
+public:
+    MenuDisplay(double cx, double cy, double w, Env &env, int id, std::function<std::string(int)> text,
+                std::function<std::vector<MenuGroup>()> groups)
+        : ParamView(Around(cx, cy, w, 16), env, id), text_(std::move(text)), groups_(std::move(groups)) {}
+    void draw(CDrawContext *dc) override {
+        const CRect v = getViewSize();
+        Face(dc, v, 2, kLcdTop, kLcdBottom, Faint(kBlack, 0.7));
+        Text(dc, text_(value_), CRect(v.left + 4, v.top, v.right - 2, v.bottom), MonoFont(10), kDisplayText, kLeftText);
+        setDirty(false);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (!e.buttonState.isLeft()) return;
+        env_.popup(CPoint(getViewSize().left, getViewSize().bottom), groups_(), [this](int v) { Edit([&] { Set(v); }); });
+        e.consumed = true;
+    }
+
+private:
+    std::function<std::string(int)> text_;
+    std::function<std::vector<MenuGroup>()> groups_;
+};
+
+// ---- static pieces --------------------------------------------------------------------
+
+class Label : public CView {
+public:
+    Label(double cx, double cy, std::string text, CFontRef font = nullptr, bool dim = false)
+        : CView(CRect(0, 0, 1, 1)), text_(std::move(text)), font_(font ? font : LabelFont()), dim_(dim) {
+        setViewSize(Around(cx, cy, TextWidth(text_, font_) + 6, 14));
+        setMouseEnabled(false);
+    }
+    void draw(CDrawContext *dc) override {
+        Text(dc, text_, getViewSize(), font_, dim_ ? Faint(Ink(), 0.7) : Ink());
+        setDirty(false);
+    }
+
+private:
+    std::string text_;
+    CFontRef font_;
+    bool dim_;
+};
+
+// Dim separator line (section-header colour, mostly transparent).
+class Divider : public CView {
+public:
+    Divider(double x1, double y1, double x2, double y2) : CView(CRect(x1, y1, std::max(x2, x1 + 1), std::max(y2, y1 + 1))) { setMouseEnabled(false); }
+    void draw(CDrawContext *dc) override {
+        dc->setFillColor(Faint(HeaderFill(), 0.28));
+        dc->drawRect(getViewSize(), kDrawFilled);
+        setDirty(false);
+    }
+};
+
+// Framed section with Synth1's title strip (top 16 units).
+class SectionBox : public CView {
+public:
+    SectionBox(const CRect &r, std::string title) : CView(r), title_(std::move(title)) { setMouseEnabled(false); }
+    void draw(CDrawContext *dc) override {
+        const CRect v = getViewSize();
+        dc->setDrawMode(kAntiAliasing);
+        dc->setFillColor(BgColor());
+        dc->drawRect(v, kDrawFilled);
+        dc->setFillColor(HeaderFill());
+        dc->drawRect(CRect(v.left, v.top, v.right, v.top + 16), kDrawFilled);
+        Text(dc, title_, CRect(v.left + 5, v.top, v.right, v.top + 16), Font("Segoe UI", 12, kBoldFace), kHeaderText, kLeftText);
+        dc->setFrameColor(EdgeColor());
         dc->setLineWidth(1);
-        dc->drawRect(v, kDrawFilledAndStroked);
-        dc->setFillColor(PanelHeader());
-        dc->drawRect(CRect(v.left, v.top, v.right, v.top + kStripH), kDrawFilled);
-        dc->setFont(kNormalFontSmall);
-        dc->setFontColor(HeaderText());
-        dc->drawString(title_.c_str(), CRect(v.left + 6, v.top, v.right, v.top + kStripH), kLeftText);
+        dc->drawRect(CRect(v.left + 0.5, v.top + 0.5, v.right - 0.5, v.bottom - 0.5), kDrawStroked);
         setDirty(false);
     }
 
@@ -466,27 +808,43 @@ private:
     std::string title_;
 };
 
+class TitleBand : public CView {
+public:
+    explicit TitleBand(const CRect &r) : CView(r) { setMouseEnabled(false); }
+    void draw(CDrawContext *dc) override {
+        const CRect v = getViewSize();
+        Text(dc, "Synth2", CRect(v.left + 8, v.top, v.left + 90, v.bottom), Font("Segoe UI", 20, kBoldFace), Ink(), kLeftText);
+        Text(dc, "Virtual Analog", CRect(v.left + 92, v.top + 5, v.left + 220, v.bottom), Font("Segoe UI", 12, kItalicFace), Faint(Ink(), 0.7), kLeftText);
+        const std::string badge = "Windows  a Synth1 recreation";
+        const double w = TextWidth(badge, Font("Segoe UI", 12, kBoldFace)) + 20;
+        const CRect box(v.right - 8 - w, v.top + 3, v.right - 8, v.top + 23);
+        dc->setFillColor(kRed);
+        dc->drawRect(box, kDrawFilled);
+        dc->setFrameColor(kBlack);
+        dc->setLineWidth(1);
+        dc->drawRect(box, kDrawStroked);
+        Text(dc, badge, box, Font("Segoe UI", 12, kBoldFace), CColor(255, 255, 255, 255));
+        setDirty(false);
+    }
+};
+
+// The patch display (bottom bar): click = browse banks.
 class Lcd : public CView {
 public:
     Lcd(const CRect &r, std::function<void(Lcd &)> onClick) : CView(r), onClick_(std::move(onClick)) {}
-    void Set(const std::string &l1, const std::string &l2) {
-        if (l1 == line1_ && l2 == line2_) return;
+    void Set(const std::string &l1, const std::string &l2, bool readout) {
+        if (l1 == line1_ && l2 == line2_ && readout == readout_) return;
         line1_ = l1;
         line2_ = l2;
+        readout_ = readout;
         invalid();
     }
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
-        dc->setDrawMode(kAntiAliasing);
-        dc->setFillColor(kLcdBg);
-        dc->setFrameColor(kKnobEdge);
-        dc->setLineWidth(1);
-        dc->drawRect(v, kDrawFilledAndStroked);
-        dc->setFontColor(kLcdText);
-        dc->setFont(kNormalFont);
-        dc->drawString(line1_.c_str(), CRect(v.left + 8, v.top + 4, v.right - 4, v.top + 24), kLeftText);
-        dc->setFont(kNormalFontSmall);
-        dc->drawString(line2_.c_str(), CRect(v.left + 8, v.top + 28, v.right - 4, v.bottom - 2), kLeftText);
+        Face(dc, v, 4, kLcdTop, kLcdBottom, kBlack, 1.5);
+        Text(dc, line1_, CRect(v.left + 10, v.top + 6, v.left + 338, v.top + 32), MonoFont(17), kLcdText, kLeftText);
+        Text(dc, line2_, CRect(v.left + 10, v.top + 38, v.right - 10, v.top + 62), MonoFont(13, false),
+             readout_ ? kDisplayText : Faint(kLcdText, 0.85), kLeftText);
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
@@ -497,8 +855,56 @@ public:
 
 private:
     std::string line1_, line2_;
+    bool readout_ = false;
     std::function<void(Lcd &)> onClick_;
 };
+
+// ---- MIDI ctrl routing (Synth1's src -> assign words) -------------------------------
+
+const std::map<int, std::string> kCcNames = {
+    {1, "mod wheel"}, {2, "breath"}, {4, "foot"}, {5, "porta time"}, {7, "volume"}, {8, "balance"}, {10, "pan"},
+    {11, "expression"}, {64, "sustain"}, {65, "portamento"}, {66, "sostenuto"}, {67, "soft"}, {71, "resonance"},
+    {72, "release"}, {73, "attack"}, {74, "cutoff"}, {91, "reverb"}, {93, "chorus"},
+};
+
+std::string CtrlSrcLabel(int v) {
+    char b[48];
+    switch (v >> 8) {
+        case 0xB0: {
+            const auto it = kCcNames.find(v & 0xFF);
+            std::snprintf(b, sizeof b, "#%d:%s", v & 0xFF, it != kCcNames.end() ? it->second.c_str() : "cc");
+            return b;
+        }
+        case 0xE0: return "pitch bend";
+        case 0xD0: return "ch pressure";
+        default:
+            if (v <= 0) return "none";
+            std::snprintf(b, sizeof b, "0x%04X", v);
+            return b;
+    }
+}
+
+std::vector<MenuGroup> CtrlSrcGroups() {
+    std::vector<MenuGroup> g;
+    g.push_back({"", {{0xE000, "pitch bend"}, {0xD000, "ch pressure"}}});
+    for (int base = 0; base < 128; base += 32) {
+        MenuGroup m;
+        m.title = "CC " + std::to_string(base) + "-" + std::to_string(base + 31);
+        for (int cc = base; cc < base + 32; ++cc) m.items.emplace_back(0xB000 | cc, CtrlSrcLabel(0xB000 | cc));
+        g.push_back(std::move(m));
+    }
+    return g;
+}
+
+// Synth1's assign list, in its order (v1.12 manual): -1 = none.
+const int kAssignTargets[] = {76, 45, 95, 2,  12, 13, 11, 5,  8,  91, 15, 16, 17, 18, 19, 20, 21, 23, 22, 25, 26, 27, 28, 29, 79, 80, 81,
+                              61, 62, 63, 60, 90, 35, 36, 37, 83, 98, 52, 53, 54, 55, 56, 39, 75, 92, 84, 85, 34, 43, 44, 48, 49};
+
+std::string AssignName(int v, int effectType) {
+    if (v < 0) return "none";
+    if (v < int(kParamCount)) return DisplayName(v, effectType);
+    return std::to_string(v);
+}
 
 // Bottom-right resize grip. Dragging asks the editor for a new zoom; the host
 // resizes its window and calls back onSize. Mouse positions arrive in the
@@ -513,7 +919,7 @@ public:
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
         dc->setDrawMode(kAntiAliasing);
-        dc->setFrameColor(LabelText());
+        dc->setFrameColor(Ink());
         dc->setLineWidth(1.5);
         for (int i = 1; i <= 3; ++i) {
             const CCoord d = i * 4.0;
@@ -601,6 +1007,7 @@ bool PickColor(HWND owner, uint32_t &rgb) {
     return true;
 }
 
+
 } // namespace
 
 // ---- the panel ----------------------------------------------------------------
@@ -611,13 +1018,12 @@ struct OxoSynth2WinEditor::Panel {
     HWND hwnd = nullptr;
     std::vector<ParamView *> params;
     Lcd *lcd = nullptr;
-    int32_t shownSerial_ = -1;
     int readoutId = -1;
     std::chrono::steady_clock::time_point readoutAt{};
     std::string notice;
     std::chrono::steady_clock::time_point noticeAt{};
     SharedPointer<COptionMenu> menu;
-    CCoord width = 0, height = 0;
+    std::vector<int> pickValues; // menu tag -> value of the pop-up in progress
 
     void Flash(const std::string &text) {
         notice = text;
@@ -628,6 +1034,35 @@ struct OxoSynth2WinEditor::Panel {
         char b[16];
         std::snprintf(b, sizeof b, "%03d", n);
         return b;
+    }
+
+    // Value pick-list under `where` (frame coordinates).
+    void Popup(const CPoint &where, const std::vector<MenuGroup> &groups, std::function<void(int)> pick) {
+        menu = makeOwned<COptionMenu>();
+        pickValues.clear();
+        const auto add = [&](COptionMenu *m, const std::pair<int, std::string> &item) {
+            if (CMenuItem *it = m->addEntry(UTF8String(item.second), -1)) it->setTag(int32_t(pickValues.size()));
+            pickValues.push_back(item.first);
+        };
+        for (const MenuGroup &g : groups) {
+            if (g.title.empty()) {
+                for (const auto &item : g.items) add(menu, item);
+                continue;
+            }
+            auto *sub = new COptionMenu();
+            for (const auto &item : g.items) add(sub, item);
+            menu->addEntry(sub, UTF8String(g.title));
+            sub->forget();
+        }
+        menu->popup(frame, where, [this, pick](COptionMenu *m) {
+            int32_t idx = -1;
+            COptionMenu *sub = m->getLastItemMenu(idx);
+            if (!sub || idx < 0) return;
+            if (CMenuItem *it = sub->getEntry(idx)) {
+                const int32_t tag = it->getTag();
+                if (tag >= 0 && size_t(tag) < pickValues.size()) pick(pickValues[size_t(tag)]);
+            }
+        });
     }
 
     // Flattened list of non-empty library slots (bank, slot), in browser order.
@@ -698,6 +1133,12 @@ struct OxoSynth2WinEditor::Panel {
         });
     }
 
+    void SavePatch() {
+        std::filesystem::path p;
+        if (PickFile(hwnd, true, env.c->PatchName() + ".sy1", p))
+            Flash(env.c->SavePatchFile(p.string()) ? "Saved " + Utf8(p.filename().wstring()) : "Could not save patch");
+    }
+
     void MainMenu(const CPoint &where) {
         menu = makeOwned<COptionMenu>();
         menu->addEntry("Initialize patch", 0);
@@ -717,12 +1158,7 @@ struct OxoSynth2WinEditor::Panel {
                         Flash(env.c->LoadPatchFile(p.string()) ? "Loaded " + Utf8(p.filename().wstring()) : "Could not load patch");
                     break;
                 }
-                case 2: {
-                    std::filesystem::path p;
-                    if (PickFile(hwnd, true, env.c->PatchName() + ".sy1", p))
-                        Flash(env.c->SavePatchFile(p.string()) ? "Saved " + Utf8(p.filename().wstring()) : "Could not save patch");
-                    break;
-                }
+                case 2: SavePatch(); break;
                 case 3: env.c->AllNotesOff(); break;
                 case 4: ChooseBackground(); break;
                 case 5: ChooseAccent(); break;
@@ -736,7 +1172,6 @@ struct OxoSynth2WinEditor::Panel {
         frame->setBackgroundColor(BgColor());
         frame->invalid();
     }
-
     void ChooseBackground() {
         uint32_t rgb = gBackground;
         if (!PickColor(hwnd, rgb)) return;
@@ -744,7 +1179,6 @@ struct OxoSynth2WinEditor::Panel {
         SaveBackground();
         ApplyBackground();
     }
-
     void ChooseAccent() {
         uint32_t rgb = gAccent;
         if (!PickColor(hwnd, rgb)) return;
@@ -752,7 +1186,6 @@ struct OxoSynth2WinEditor::Panel {
         SaveAccent();
         frame->invalid(); // knobs redraw with the new colour
     }
-
     void ResetColors() {
         gBackground = kDefaultBackground;
         gAccent = kDefaultAccent;
@@ -771,22 +1204,26 @@ struct OxoSynth2WinEditor::Panel {
         for (ParamView *p : params) p->Sync();
         const auto now = std::chrono::steady_clock::now();
         const s2::LibraryProgram &prog = env.c->Program();
-        std::string l1 = prog.slot >= 0 ? Pad3(prog.slot + 1) + ": " + env.c->PatchName() : env.c->PatchName();
+        const std::string l1 = (prog.slot >= 0 ? Pad3(prog.slot + 1) : std::string("---")) + ":" + env.c->PatchName();
         std::string l2;
+        bool readout = false;
         if (!notice.empty() && now - noticeAt < std::chrono::seconds(3)) {
             l2 = notice;
+            readout = true;
         } else if (readoutId >= 0 && now - readoutAt < std::chrono::milliseconds(1500)) {
             const int sync = s2::TempoSyncSwitch(readoutId);
             const int v = env.c->NativeValue(readoutId);
             l2 = std::string(s2::DisplayName(readoutId, env.c->NativeValue(s2::kEffectType))) + ": " +
                  s2::FormatParam(readoutId, v, sync >= 0 && env.c->NativeValue(sync), env.c->NativeValue(s2::kEffectType));
+            readout = true;
         } else if (prog.slot >= 0) {
-            const std::string rel = prog.bank == s2::kFactoryProgramBank ? s2::kFactoryBankName : prog.bank;
-            l2 = rel;
+            l2 = prog.bank == s2::kFactoryProgramBank ? s2::kFactoryBankName : prog.bank;
+        } else {
+            l2 = "click here to browse banks";
         }
         const std::string note = env.c->Library().TakeNotice();
         if (!note.empty()) Flash(note);
-        lcd->Set(l1, l2);
+        lcd->Set(l1, l2, readout);
     }
 };
 
@@ -794,22 +1231,8 @@ struct OxoSynth2WinEditor::Panel {
 
 OxoSynth2WinEditor::OxoSynth2WinEditor(OxoSynth2Controller *controller)
     : VSTGUIEditor(static_cast<Steinberg::Vst::EditController *>(controller)), controller_(controller) {
-    // Size is only known once the sections are packed: do it here, once.
-    CCoord x = kGap, y = kHeaderH + kGap, rowH = 0, maxW = 0;
-    for (const Section &s : Sections()) {
-        const int rows = int((s.items.size() + size_t(s.cols) - 1) / size_t(s.cols));
-        const CCoord w = kPad * 2 + s.cols * kCellW, h = kStripH + kPad * 2 + rows * kCellH;
-        if (x + w > kMaxRowWidth && x > kGap) {
-            x = kGap;
-            y += rowH + kGap;
-            rowH = 0;
-        }
-        x += w + kGap;
-        rowH = std::max(rowH, h);
-        maxW = std::max(maxW, x);
-    }
-    baseW_ = int(std::max<CCoord>(maxW, 520));
-    baseH_ = int(y + rowH + kGap + 8); // + room for the resize grip
+    baseW_ = 770; // Synth1's proportions (the Mac panel's design canvas)
+    baseH_ = 560;
     setRect(Steinberg::ViewRect(0, 0, baseW_, baseH_));
 }
 
@@ -829,72 +1252,265 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
     Panel &p = *panel_;
     p.env.c = controller_;
     p.env.readout = [&p](int id) { p.ShowReadout(id); };
+    p.env.popup = [&p](const CPoint &where, std::vector<MenuGroup> groups, std::function<void(int)> pick) {
+        p.Popup(where, groups, std::move(pick));
+    };
     p.hwnd = static_cast<HWND>(parent);
-    p.width = size.getWidth();
-    p.height = size.getHeight();
 
     frame = new CFrame(size, this);
     LoadSettings();
     frame->setBackgroundColor(BgColor());
     p.frame = frame;
+    Env &env = p.env;
+    OxoSynth2Controller *c = controller_;
 
-    // Header: [< >] [ LCD ........ ] [browse|menu] [volume]
-    const CCoord W = size.getWidth(), volW = 56, btnW = 62, prevW = 28;
-    const CCoord lcdL = 8 + prevW + 4, btnL = W - 8 - volW - 4 - btnW, colorW = 62, lcdR = btnL - 4 - colorW - 4;
-    p.lcd = new Lcd(CRect(lcdL, 8, lcdR, kHeaderH - 6),
-                    [&p](Lcd &l) { p.Browse(CPoint(l.getViewSize().left, l.getViewSize().bottom)); });
-    frame->addView(p.lcd);
-    frame->addView(new Button(CRect(8, 8, 8 + prevW, 8 + 24), "<", [&p](Button &, const MouseDownEvent &) { p.StepProgram(-1); }));
-    frame->addView(new Button(CRect(8, 8 + 26, 8 + prevW, 8 + 50), ">", [&p](Button &, const MouseDownEvent &) { p.StepProgram(1); }));
-    frame->addView(new Button(CRect(btnL, 8, btnL + btnW, 8 + 24), "browse", [&p](Button &b, const MouseDownEvent &) {
-        p.Browse(CPoint(b.getViewSize().left, b.getViewSize().bottom));
-    }));
-    frame->addView(new Button(CRect(btnL - 4 - colorW, 8, btnL - 4, 8 + 24), "BG Color", [&p](Button &, const MouseDownEvent &) {
-        p.ChooseBackground();
-    }));
-    frame->addView(new Button(CRect(btnL - 4 - colorW, 8 + 26, btnL - 4, 8 + 50), "Color", [&p](Button &, const MouseDownEvent &) {
-        p.ChooseAccent();
-    }));
-    frame->addView(new Button(CRect(btnL, 8 + 26, btnL + btnW, 8 + 50), "menu", [&p](Button &b, const MouseDownEvent &) {
-        p.MainMenu(CPoint(b.getViewSize().left, b.getViewSize().bottom));
-    }));
+    // ---- placement helpers: coordinates are the Mac panel's (section-relative) ----
+    CCoord ox = 0, oy = 0;
+    const auto add = [&](CView *v) { frame->addView(v); };
+    const auto addParam = [&](ParamView *v) {
+        frame->addView(v);
+        p.params.push_back(v);
+    };
+    const auto section = [&](double x, double y, double w, double h, const char *title) {
+        ox = x;
+        oy = y;
+        add(new SectionBox(CRect(x, y, x + w, y + h), title));
+    };
+    const auto knob = [&](int id, const char *label, double x, double y, double sz = 24) {
+        addParam(new Knob(ox + x, oy + y, env, id, label, sz));
+    };
+    const auto toggle = [&](int id, const char *title, double x, double y, double w = 40) {
+        addParam(new Toggle(ox + x, oy + y, w, env, id, title));
+    };
+    const auto cycler = [&](int id, const char *title, double x, double y, double w = 40) {
+        addParam(new CycleButton(ox + x, oy + y, w, env, id, title));
+    };
+    const auto display = [&](int id, double x, double y, double w = 30, bool cycles = false, bool two = false,
+                             std::function<void(ValueDisplay &)> tap = nullptr) {
+        addParam(new ValueDisplay(ox + x, oy + y, w, env, id, cycles, two, std::move(tap)));
+    };
+    const auto badge = [&](const char *text, double x, double y, int id = -1) { addParam(new Badge(ox + x, oy + y, env, id, text)); };
+    const auto label = [&](const char *text, double x, double y) { add(new Label(ox + x, oy + y, text)); };
+    const auto divider = [&](double x1, double y1, double x2, double y2) { add(new Divider(ox + x1, oy + y1, ox + x2, oy + y2)); };
+    const auto radio = [&](int id, std::vector<std::string> labels, int from, double x, double y, bool horizontal = false, bool trailing = false,
+                           bool showLabels = true, double rowH = 13) {
+        std::vector<LedRadio::Option> o;
+        for (size_t i = 0; i < labels.size(); ++i) o.push_back({from + int(i), labels[i]});
+        addParam(new LedRadio(ox + x, oy + y, env, id, std::move(o), horizontal, trailing, showLabels, rowH));
+    };
+    const auto waves = [&](int id, std::vector<WaveRadio::Shape> shapes, double x, double y) {
+        addParam(new WaveRadio(ox + x, oy + y, env, id, std::move(shapes)));
+    };
+    const auto lfoWave = [&](int id, double x, double y) {
+        addParam(new WaveCycle(ox + x, oy + y, env, id, {Wave::Saw, Wave::Tri, Wave::Square, Wave::SampleHold, Wave::Smooth, Wave::Sine}));
+    };
+    const auto ctrlSrc = [&](int id, double x, double y) {
+        addParam(new MenuDisplay(ox + x, oy + y, 120, env, id, CtrlSrcLabel, CtrlSrcGroups));
+    };
+    const auto ctrlAssign = [&](int id, double x, double y) {
+        addParam(new MenuDisplay(
+            ox + x, oy + y, 120, env, id, [c](int v) { return AssignName(v, c->NativeValue(kEffectType)); },
+            [c] {
+                std::vector<MenuGroup> g(1);
+                g[0].items.emplace_back(-1, "none");
+                for (int t : kAssignTargets) g[0].items.emplace_back(t, AssignName(t, c->NativeValue(kEffectType)));
+                return g;
+            }));
+    };
+
+    // ---- title band ---------------------------------------------------------------
+    add(new TitleBand(CRect(0, 4, 770, 30)));
+    add(new PushButton(CRect(300, 7, 366, 27), "BG Color", [&p](PushButton &) { p.ChooseBackground(); }, kButton, 10));
+    add(new PushButton(CRect(370, 7, 424, 27), "Color", [&p](PushButton &) { p.ChooseAccent(); }, kButton, 10));
+
+    // ---- Oscillators ----------------------------------------------------------------
+    section(6, 34, 312, 240, "Oscillators");
+    divider(166, 22, 166, 76);
+    divider(8, 81, 304, 81);
+    divider(212, 87, 212, 234);
+    divider(8, 163, 204, 163);
+    badge("1", 14, 36);
+    waves(kOsc1Shape, {{0, Wave::Sine}, {1, Wave::Saw}, {2, Wave::Pulse}, {3, Wave::Tri}}, 50, 40);
+    knob(76, "det", 100, 36);
+    knob(45, "FM", 136, 36);
+    label("sub", 186, 24);
+    waves(kSubShape, {{0, Wave::Sine}, {1, Wave::Tri}, {2, Wave::Saw}, {3, Wave::Square}}, 208, 44);
+    knob(kSubGain, "sub", 260, 36);
+    radio(kSubOctave, {"0oct", "-1oct"}, 0, 234, 70, true);
+    badge("2", 14, 94);
+    waves(1, {{1, Wave::Saw}, {2, Wave::Pulse}, {3, Wave::Tri}, {4, Wave::Noise}}, 50, 98);
+    toggle(7, "ring", 104, 94);
+    toggle(6, "sync", 150, 94);
+    display(9, 260, 90, 32, false, true);
+    label("key shift", 260, 106);
+    toggle(4, "track", 36, 136, 52);
+    knob(kOsc2Pitch, "pitch", 104, 132);
+    knob(3, "fine", 146, 132);
+    knob(5, "mix", 238, 132);
+    knob(8, "p/w", 282, 132);
+    toggle(10, "m.env", 36, 184, 52);
+    knob(12, "A", 104, 184);
+    knob(13, "D", 140, 184);
+    knob(11, "amt", 176, 184);
+    cycler(71, "dest.", 36, 220, 52);
+    radio(71, {"osc2", "FM", "p/w"}, 0, 126, 220, true);
+    knob(kOscPhase, "phase", 238, 206);
+    knob(72, "tune", 282, 206);
+
+    // ---- LFO ------------------------------------------------------------------------
+    section(6, 278, 312, 130, "LFO");
     {
-        auto *vol = new Knob(CRect(W - 8 - volW, 0, W - 8, kCellH), p.env, kVolumeParamId, "volume");
-        frame->addView(vol);
-        p.params.push_back(vol);
+        const std::vector<std::string> dests = {"osc2", "osc1,2", "filter", "amp", "p/w", "FM", "pan"};
+        badge("1", 14, 30, 57);
+        lfoWave(42, 42, 30);
+        cycler(kLfo1Dest, "dst", 78, 30, 32);
+        knob(43, "spd", 30, 62);
+        knob(44, "amt", 76, 62);
+        label("-sync-", 52, 99);
+        toggle(67, "tempo", 30, 114, 46);
+        toggle(68, "key", 78, 114, 36);
+        radio(kLfo1Dest, dests, 1, 124, 72, false, false, false);
+        for (size_t i = 0; i < dests.size(); ++i) label(dests[i].c_str(), 156, 72 - 45.5 + 13.0 * double(i) + 6.5);
+        radio(46, dests, 1, 188, 72, false, true, false);
+        cycler(46, "dst", 234, 30, 32);
+        lfoWave(47, 270, 30);
+        badge("2", 298, 30, 58);
+        knob(48, "spd", 236, 62);
+        knob(49, "amt", 282, 62);
+        label("-sync-", 260, 99);
+        toggle(69, "tempo", 236, 114, 46);
+        toggle(70, "key", 284, 114, 36);
     }
 
-    // Sections, shelf-packed left to right.
-    CCoord x = kGap, y = kHeaderH + kGap, rowH = 0;
-    for (const Section &s : Sections()) {
-        const int rows = int((s.items.size() + size_t(s.cols) - 1) / size_t(s.cols));
-        const CCoord w = kPad * 2 + s.cols * kCellW, h = kStripH + kPad * 2 + rows * kCellH;
-        if (x + w > kMaxRowWidth && x > kGap) {
-            x = kGap;
-            y += rowH + kGap;
-            rowH = 0;
-        }
-        frame->addView(new Strip(CRect(x, y, x + w, y + h), s.title));
-        for (size_t i = 0; i < s.items.size(); ++i) {
-            const Item &it = s.items[i];
-            const CCoord cx = x + kPad + CCoord(i % size_t(s.cols)) * kCellW, cy = y + kStripH + kPad + CCoord(i / size_t(s.cols)) * kCellH;
-            const CRect cell(cx, cy, cx + kCellW, cy + kCellH);
-            ParamView *v = it.kind == Kind::Knob     ? static_cast<ParamView *>(new Knob(cell, p.env, it.id, it.label))
-                           : it.kind == Kind::Toggle ? static_cast<ParamView *>(new Toggle(cell, p.env, it.id, it.label))
-                                                     : static_cast<ParamView *>(new Step(cell, p.env, it.id, it.label));
-            frame->addView(v);
-            p.params.push_back(v);
-        }
-        x += w + kGap;
-        rowH = std::max(rowH, h);
+    // ---- Wheel / MIDI -----------------------------------------------------------------
+    section(6, 412, 536, 66, "Wheel / MIDI");
+    label("p.b range", 32, 28);
+    display(40, 32, 46, 30, false, true);
+    label("src1", 82, 31);
+    ctrlSrc(kCtrlSrc1, 158, 31);
+    label("->", 228, 31);
+    ctrlAssign(87, 298, 31);
+    label("src2", 82, 51);
+    ctrlSrc(88, 158, 51);
+    label("->", 228, 51);
+    ctrlAssign(kCtrlAssign2, 298, 51);
+    knob(50, "sens1", 400, 34, 22);
+    knob(51, "sens2", 446, 34, 22);
+
+    // ---- Amplifier ----------------------------------------------------------------------
+    section(324, 34, 218, 80, "Amplifier");
+    knob(25, "A", 20, 40);
+    knob(26, "D", 55, 40);
+    knob(27, "S", 90, 40);
+    knob(28, "R", 125, 40);
+    knob(29, "gain", 162, 40);
+    knob(30, "vel", 198, 40);
+
+    // ---- Filter --------------------------------------------------------------------------
+    section(324, 118, 218, 156, "Filter");
+    knob(15, "A", 20, 44);
+    knob(16, "D", 52, 44);
+    knob(17, "S", 84, 44);
+    knob(18, "R", 116, 44);
+    knob(21, "amt", 150, 44);
+    cycler(kFilterType, "type", 196, 30, 36);
+    radio(kFilterType, {"LP12", "LP24", "HP12", "BP12", "LPDL"}, 0, 196, 82, false, false, true, 14);
+    knob(19, "frq", 20, 106);
+    knob(20, "res", 52, 106);
+    knob(23, "sat", 84, 106);
+    knob(22, "trk", 116, 106);
+    toggle(24, "vel", 150, 112, 36);
+
+    // ---- Arpeggiator -----------------------------------------------------------------------
+    section(324, 278, 218, 130, "Arpeggiator");
+    toggle(59, "ON", 22, 30, 32);
+    cycler(31, "type", 66, 30, 40);
+    cycler(32, "range", 128, 30, 44);
+    radio(31, {"updown", "up", "down", "random"}, 1, 40, 78, false, false, true, 14);
+    radio(32, {"1oct", "2oct", "3oct", "4oct"}, 0, 126, 78, false, false, true, 14);
+    knob(33, "beat", 190, 36);
+    knob(34, "gate", 190, 88);
+
+    // ---- Effect ---------------------------------------------------------------------------
+    section(548, 34, 216, 80, "Effect");
+    toggle(77, "ON", 22, 40, 32);
+    display(kEffectType, 66, 40, 46, true, false, [c, &p](ValueDisplay &d) {
+        std::vector<MenuGroup> g(1);
+        const int n = Info(kEffectType).max - Info(kEffectType).min + 1;
+        for (int v = 0; v < n; ++v) g[0].items.emplace_back(v, FormatParam(kEffectType, v, false, v));
+        (void)c;
+        ValueDisplay *dp = &d;
+        p.Popup(CPoint(d.getViewSize().left, d.getViewSize().bottom), g, [dp](int v) { dp->Pick(v); });
+    });
+    knob(79, "ctl1", 118, 36);
+    knob(80, "ctl2", 154, 36);
+    knob(81, "level", 190, 36);
+
+    // ---- Equalizer / Pan ------------------------------------------------------------------
+    section(548, 118, 216, 58, "Equalizer / Pan");
+    knob(61, "freq", 24, 30, 22);
+    knob(62, "level", 66, 30, 22);
+    knob(63, "Q", 108, 30, 22);
+    knob(60, "tone", 150, 30, 22);
+    knob(kPan, "L-R", 192, 30, 22);
+
+    // ---- Tempo Delay ----------------------------------------------------------------------
+    section(548, 180, 216, 58, "Tempo Delay");
+    toggle(65, "ON", 17, 32, 28);
+    display(82, 48, 32, 28, true);
+    knob(35, "time", 84, 30, 22);
+    knob(83, "sprd", 111, 30, 22);
+    knob(36, "fdbk", 138, 30, 22);
+    knob(kDelayTone, "tone", 165, 30, 22);
+    knob(37, "d/w", 192, 30, 22);
+
+    // ---- Chorus / Flanger -----------------------------------------------------------------
+    section(548, 242, 216, 58, "Chorus / Flanger");
+    toggle(66, "ON", 17, 32, 28);
+    display(64, 48, 32, 28, true);
+    knob(52, "time", 84, 30, 22);
+    knob(53, "depth", 111, 30, 22);
+    knob(54, "rate", 138, 30, 22);
+    knob(55, "fdbk", 165, 30, 22);
+    knob(56, "level", 192, 30, 22);
+
+    // ---- Voice ----------------------------------------------------------------------------
+    section(548, 304, 216, 174, "Voice");
+    radio(kPlayMode, {"poly", "mono", "legato"}, 0, 34, 46, false, false, true, 14);
+    display(kPolyphony, 130, 38, 30);
+    label("poly", 130, 55);
+    toggle(73, "unison", 36, 100, 56);
+    label("portamento", 153, 77);
+    knob(39, "", 128, 100);
+    toggle(74, "auto", 178, 100, 38);
+    display(93, 24, 138, 26);
+    label("num", 24, 155);
+    knob(75, "det", 68, 136);
+    knob(92, "phase", 106, 136);
+    knob(84, "sprd", 144, 136);
+    knob(85, "pitch", 182, 136);
+
+    // ---- bottom bar (origin 6, 484) ---------------------------------------------------------
+    ox = 6;
+    oy = 484;
+    {
+        auto *vol = new Knob(ox + 19, oy + 28, env, kVolumeParamId, "vol", 26);
+        addParam(vol);
+        p.lcd = new Lcd(CRect(ox + 44, oy, ox + 44 + 432, oy + 70), [&p](Lcd &l) { p.Browse(CPoint(l.getViewSize().left, l.getViewSize().bottom)); });
+        add(p.lcd);
+        add(new PushButton(CRect(ox + 392, oy + 9, ox + 428, oy + 29), "<", [&p](PushButton &) { p.StepProgram(-1); }));
+        add(new PushButton(CRect(ox + 432, oy + 9, ox + 468, oy + 29), ">", [&p](PushButton &) { p.StepProgram(1); }));
+        add(new PushButton(CRect(ox + 486, oy + 4, ox + 536, oy + 30), "save", [&p](PushButton &) { p.SavePatch(); }, kRed));
+        add(new PushButton(CRect(ox + 486, oy + 38, ox + 536, oy + 64), "menu", [&p](PushButton &b) {
+            p.MainMenu(CPoint(b.getViewSize().left, b.getViewSize().bottom));
+        }));
     }
 
     // Resize grip (added last: on top of the panels).
     {
         constexpr CCoord g = 16;
-        frame->addView(new Grip(
-            CRect(size.getWidth() - g, size.getHeight() - g, size.getWidth(), size.getHeight()), size.getWidth(), size.getHeight(),
-            [this] { return frame ? frame->getZoom() : 1.0; }, [this](double z) { RequestScale(z); }, [] { SaveScale(); }));
+        add(new Grip(CRect(size.getWidth() - g, size.getHeight() - g, size.getWidth(), size.getHeight()), size.getWidth(), size.getHeight(),
+                     [this] { return frame ? frame->getZoom() : 1.0; }, [this](double z) { RequestScale(z); }, [] { SaveScale(); }));
     }
 
     // The library list is scanned on a worker; the LCD polls it.
@@ -918,6 +1534,7 @@ void PLUGIN_API OxoSynth2WinEditor::close() {
         frame = nullptr;
     }
     panel_.reset();
+    gMeasure = nullptr;
 }
 
 void OxoSynth2WinEditor::RequestScale(double zoom) {
