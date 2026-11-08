@@ -498,10 +498,10 @@ public:
             const bool on = value_ == opts_[i].value;
             const double ledX = trailing_ ? r.right - 7 : r.left, midY = r.top + r.getHeight() / 2;
             if (on) {
-                dc->setFillColor(Faint(kRadioOn, 0.35));
+                dc->setFillColor(Faint(AccentColor(), 0.35));
                 dc->drawEllipse(CRect(ledX - 2.5, midY - 6, ledX + 9.5, midY + 6), kDrawFilled);
             }
-            dc->setFillColor(on ? kRadioOn : kRadioOff);
+            dc->setFillColor(on ? AccentColor() : Scaled(AccentColor(), 0.25));
             dc->setFrameColor(Faint(kBlack, 0.5));
             dc->setLineWidth(0.5);
             dc->drawEllipse(CRect(ledX, midY - 3.5, ledX + 7, midY + 3.5), kDrawFilledAndStroked);
