@@ -128,8 +128,6 @@ const CColor kLedOff{28, 73, 31, 255};
 const CColor kRadioOn{255, 51, 26, 255};
 const CColor kRadioOff{107, 21, 11, 255};
 const CColor kDisplayText{115, 242, 255, 255};
-const CColor kLcdTop{76, 76, 76, 255};
-const CColor kLcdBottom{76, 76, 76, 255};
 const CColor kLcdText{224, 255, 255, 255};
 const CColor kRed{173, 15, 13, 255};
 const CColor kBlack{0, 0, 0, 255};
@@ -148,6 +146,15 @@ CColor Ink() { return BackgroundIsLight() ? CColor(26, 26, 15, 255) : CColor(228
 CColor HeaderFill() { return BackgroundIsLight() ? CColor(59, 59, 56, 255) : Shade(gBackground, 30); }
 CColor EdgeColor() { return BackgroundIsLight() ? Shade(gBackground, -100) : Shade(gBackground, 48); }
 CColor Faint(const CColor &c, double a) { return CColor(c.red, c.green, c.blue, uint8_t(255 * a)); }
+
+// Displays: the panel colour with the same thin edge as the sections.
+void DisplayFace(CDrawContext *dc, const CRect &v) {
+    dc->setFillColor(BgColor());
+    dc->drawRect(v, kDrawFilled);
+    dc->setFrameColor(EdgeColor());
+    dc->setLineWidth(1);
+    dc->drawRect(CRect(v.left + 0.5, v.top + 0.5, v.right - 0.5, v.bottom - 0.5), kDrawStroked);
+}
 
 // Fonts (never freed: they outlive the DLL's VSTGUI shutdown order).
 CFontRef Font(const char *face, double size, int style) {
@@ -674,7 +681,7 @@ public:
         : ParamView(Around(cx, cy, w, 17), env, id), tapCycles_(tapCycles), twoDigits_(twoDigits), onTap_(std::move(onTap)) {}
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
-        Face(dc, v, 2, kLcdTop, kLcdBottom, Faint(kBlack, 0.7));
+        DisplayFace(dc, v);
         char b[16];
         std::snprintf(b, sizeof b, "%02d", value_);
         Text(dc, twoDigits_ ? std::string(b) : ValueText(), v, MonoFont(11), AccentColor());
@@ -740,7 +747,7 @@ public:
         : ParamView(Around(cx, cy, w, 16), env, id), text_(std::move(text)), groups_(std::move(groups)) {}
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
-        Face(dc, v, 2, kLcdTop, kLcdBottom, Faint(kBlack, 0.7));
+        DisplayFace(dc, v);
         Text(dc, text_(value_), CRect(v.left + 4, v.top, v.right - 2, v.bottom), MonoFont(10), AccentColor(), kLeftText);
         setDirty(false);
     }
@@ -836,9 +843,14 @@ public:
     }
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
-        Face(dc, v, 4, kLcdTop, kLcdBottom, kBlack, 1.5);
-        Text(dc, line1_, CRect(v.left + 10, v.top + 6, v.left + 338, v.top + 32), MonoFont(17), AccentColor(), kLeftText);
-        Text(dc, line2_, CRect(v.left + 10, v.top + 38, v.right - 10, v.top + 62), MonoFont(13, false),
+        DisplayFace(dc, v);
+        dc->setFillColor(HeaderFill());
+        dc->drawRect(CRect(v.left, v.top, v.right, v.top + 16), kDrawFilled);
+        Text(dc, "Presets", CRect(v.left + 5, v.top, v.right, v.top + 16), Font("Segoe UI", 12, kBoldFace), kHeaderText, kLeftText);
+        dc->setFrameColor(EdgeColor());
+        dc->drawRect(CRect(v.left + 0.5, v.top + 0.5, v.right - 0.5, v.bottom - 0.5), kDrawStroked);
+        Text(dc, line1_, CRect(v.left + 10, v.top + 18, v.left + 338, v.top + 42), MonoFont(17), AccentColor(), kLeftText);
+        Text(dc, line2_, CRect(v.left + 10, v.top + 43, v.right - 10, v.top + 66), MonoFont(13, false),
              readout_ ? AccentColor() : Faint(AccentColor(), 0.85), kLeftText);
         setDirty(false);
     }
@@ -1493,8 +1505,8 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
         addParam(vol);
         p.lcd = new Lcd(CRect(ox + 44, oy, ox + 44 + 432, oy + 70), [&p](Lcd &l) { p.Browse(CPoint(l.getViewSize().left, l.getViewSize().bottom)); });
         add(p.lcd);
-        add(new PushButton(CRect(ox + 392, oy + 9, ox + 428, oy + 29), "<", [&p](PushButton &) { p.StepProgram(-1); }));
-        add(new PushButton(CRect(ox + 432, oy + 9, ox + 468, oy + 29), ">", [&p](PushButton &) { p.StepProgram(1); }));
+        add(new PushButton(CRect(ox + 392, oy + 21, ox + 428, oy + 41), "<", [&p](PushButton &) { p.StepProgram(-1); }));
+        add(new PushButton(CRect(ox + 432, oy + 21, ox + 468, oy + 41), ">", [&p](PushButton &) { p.StepProgram(1); }));
         add(new PushButton(CRect(ox + 486, oy + 4, ox + 536, oy + 30), "save", [&p](PushButton &) { p.SavePatch(); }, kRed));
         add(new PushButton(CRect(ox + 486, oy + 38, ox + 536, oy + 64), "menu", [&p](PushButton &b) {
             p.MainMenu(CPoint(b.getViewSize().left, b.getViewSize().bottom));
