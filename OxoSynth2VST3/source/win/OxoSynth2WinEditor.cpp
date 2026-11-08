@@ -63,7 +63,7 @@ static_assert(kOsc1Shape == 0 && kOsc2Pitch == 2 && kFilterType == 14 && kPlayMo
 // The section panels are derived from the background (a little lighter or
 // darker), so any background keeps the strips readable.
 
-constexpr uint32_t kDefaultBackground = 0x22252A, kDefaultAccent = 0xFFB040;
+constexpr uint32_t kDefaultBackground = 0x22252A, kDefaultAccent = 0xFF4040;
 constexpr double kMinScale = 0.7, kMaxScale = 2.5;
 uint32_t gBackground = kDefaultBackground;
 uint32_t gAccent = kDefaultAccent;
@@ -815,7 +815,7 @@ public:
         const CRect v = getViewSize();
         Text(dc, "Synth2", CRect(v.left + 8, v.top, v.left + 90, v.bottom), Font("Segoe UI", 20, kBoldFace), Ink(), kLeftText);
         Text(dc, "Virtual Analog", CRect(v.left + 92, v.top + 5, v.left + 220, v.bottom), Font("Segoe UI", 12, kItalicFace), Faint(Ink(), 0.7), kLeftText);
-        const std::string badge = "Windows  a Synth1 recreation";
+        const std::string badge = "a Synth1 recreation";
         const double w = TextWidth(badge, Font("Segoe UI", 12, kBoldFace)) + 20;
         const CRect box(v.right - 8 - w, v.top + 3, v.right - 8, v.top + 23);
         Text(dc, badge, box, Font("Segoe UI", 12, kBoldFace), AccentColor());
