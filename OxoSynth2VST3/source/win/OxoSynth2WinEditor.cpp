@@ -366,10 +366,10 @@ public:
         const double total = 5 + 3 + textW_, x = v.left + (v.getWidth() - total) / 2;
         const bool on = value_ != 0;
         if (on) {
-            dc->setFillColor(Faint(kLedOn, 0.35));
+            dc->setFillColor(Faint(AccentColor(), 0.35));
             dc->drawEllipse(CRect(x - 2, v.top + 6.5 - 2, x + 7, v.top + 11.5 + 2), kDrawFilled);
         }
-        dc->setFillColor(on ? kLedOn : kLedOff);
+        dc->setFillColor(on ? AccentColor() : Scaled(AccentColor(), 0.25));
         dc->drawRect(CRect(x, v.top + 6, x + 5, v.top + 11), kDrawFilled);
         Text(dc, title_, CRect(x + 8, v.top, v.right, v.bottom), ButtonFont(), kButtonText, kLeftText);
         setDirty(false);
@@ -443,7 +443,7 @@ public:
     void draw(CDrawContext *dc) override {
         const bool on = id_ < 0 || value_ != 0;
         Face(dc, getViewSize(), 2, on ? kBlack : CColor(56, 56, 56, 255), on ? kBlack : CColor(56, 56, 56, 255), CColor(128, 128, 128, 255));
-        const CColor c = on ? (id_ < 0 ? CColor(255, 255, 255, 255) : CColor(255, 217, 89, 255)) : CColor(115, 115, 115, 255);
+        const CColor c = on ? (id_ < 0 ? CColor(255, 255, 255, 255) : AccentColor()) : CColor(115, 115, 115, 255);
         Text(dc, text_, getViewSize(), Font("Segoe UI", 12, kBoldFace), c);
         setDirty(false);
     }
@@ -592,10 +592,10 @@ void DrawWave(CDrawContext *dc, Wave w, const CRect &box, const CColor &colour) 
 
 void WaveCell(CDrawContext *dc, const CRect &r, Wave w, bool on) {
     if (on) {
-        dc->setFillColor(Faint(kDisplayText, 0.3));
+        dc->setFillColor(Faint(AccentColor(), 0.3));
         dc->drawRect(CRect(r.left - 2, r.top - 2, r.right + 2, r.bottom + 2), kDrawFilled);
     }
-    Face(dc, r, 2, on ? kDisplayText : Scaled(kButton, 1.1), on ? kDisplayText : Scaled(kButton, 0.9), Faint(kBlack, 0.7));
+    Face(dc, r, 2, on ? AccentColor() : Scaled(kButton, 1.1), on ? AccentColor() : Scaled(kButton, 0.9), Faint(kBlack, 0.7));
     DrawWave(dc, w, r, on ? kBlack : CColor(217, 217, 217, 255));
 }
 
