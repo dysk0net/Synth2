@@ -818,12 +818,7 @@ public:
         const std::string badge = "Windows  a Synth1 recreation";
         const double w = TextWidth(badge, Font("Segoe UI", 12, kBoldFace)) + 20;
         const CRect box(v.right - 8 - w, v.top + 3, v.right - 8, v.top + 23);
-        dc->setFillColor(kRed);
-        dc->drawRect(box, kDrawFilled);
-        dc->setFrameColor(kBlack);
-        dc->setLineWidth(1);
-        dc->drawRect(box, kDrawStroked);
-        Text(dc, badge, box, Font("Segoe UI", 12, kBoldFace), CColor(255, 255, 255, 255));
+        Text(dc, badge, box, Font("Segoe UI", 12, kBoldFace), AccentColor());
         setDirty(false);
     }
 };
