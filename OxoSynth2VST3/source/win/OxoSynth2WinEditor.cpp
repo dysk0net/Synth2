@@ -677,7 +677,7 @@ public:
         Face(dc, v, 2, kLcdTop, kLcdBottom, Faint(kBlack, 0.7));
         char b[16];
         std::snprintf(b, sizeof b, "%02d", value_);
-        Text(dc, twoDigits_ ? std::string(b) : ValueText(), v, MonoFont(11), kDisplayText);
+        Text(dc, twoDigits_ ? std::string(b) : ValueText(), v, MonoFont(11), AccentColor());
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
@@ -741,7 +741,7 @@ public:
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
         Face(dc, v, 2, kLcdTop, kLcdBottom, Faint(kBlack, 0.7));
-        Text(dc, text_(value_), CRect(v.left + 4, v.top, v.right - 2, v.bottom), MonoFont(10), kDisplayText, kLeftText);
+        Text(dc, text_(value_), CRect(v.left + 4, v.top, v.right - 2, v.bottom), MonoFont(10), AccentColor(), kLeftText);
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
@@ -837,9 +837,9 @@ public:
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
         Face(dc, v, 4, kLcdTop, kLcdBottom, kBlack, 1.5);
-        Text(dc, line1_, CRect(v.left + 10, v.top + 6, v.left + 338, v.top + 32), MonoFont(17), kLcdText, kLeftText);
+        Text(dc, line1_, CRect(v.left + 10, v.top + 6, v.left + 338, v.top + 32), MonoFont(17), AccentColor(), kLeftText);
         Text(dc, line2_, CRect(v.left + 10, v.top + 38, v.right - 10, v.top + 62), MonoFont(13, false),
-             readout_ ? kDisplayText : Faint(kLcdText, 0.85), kLeftText);
+             readout_ ? AccentColor() : Faint(AccentColor(), 0.85), kLeftText);
         setDirty(false);
     }
     void onMouseDownEvent(MouseDownEvent &e) override {
