@@ -33,13 +33,20 @@ public:
     void PLUGIN_API close() override;
 
     VSTGUI::CMessageResult notify(VSTGUI::CBaseObject *sender, const char *message) override;
-    Steinberg::tresult PLUGIN_API canResize() override { return Steinberg::kResultFalse; }
+    // Resizable: a grip in the bottom-right corner (and the host's own window
+    // edges) scale the whole panel, keeping its proportions.
+    Steinberg::tresult PLUGIN_API canResize() override { return Steinberg::kResultTrue; }
+    Steinberg::tresult PLUGIN_API onSize(Steinberg::ViewRect *newSize) override;
+    Steinberg::tresult PLUGIN_API checkSizeConstraint(Steinberg::ViewRect *rect) override;
+    // Ask the host for a window `zoom` times the design size (clamped).
+    void RequestScale(double zoom);
 
     OBJ_METHODS(OxoSynth2WinEditor, Steinberg::Vst::VSTGUIEditor)
 
 private:
     struct Panel;
     OxoSynth2Controller *controller_ = nullptr;
+    int baseW_ = 0, baseH_ = 0; // design size (zoom 1.0)
     std::unique_ptr<Panel> panel_;
 };
 

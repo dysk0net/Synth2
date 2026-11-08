@@ -45,7 +45,6 @@ const CColor kStripText{214, 220, 230, 255};
 const CColor kKnob{18, 20, 24, 255};
 const CColor kKnobEdge{92, 100, 114, 255};
 const CColor kTrackOff{64, 70, 80, 255};
-const CColor kAccent{255, 176, 64, 255};
 const CColor kLed{92, 224, 112, 255};
 const CColor kLedOff{40, 74, 46, 255};
 const CColor kLabel{170, 178, 192, 255};
@@ -53,34 +52,63 @@ const CColor kLcdBg{12, 38, 44, 255};
 const CColor kLcdText{110, 232, 230, 255};
 const CColor kBtn{70, 77, 90, 255};
 
-// ---- background colour (user-chosen, remembered) -------------------------------
-// One setting for every instance: %APPDATA%\Oxo Music\Oxo Synth2\background.txt
-// holding "RRGGBB". The section panels are derived from it (a little lighter),
-// so any background keeps the strips readable.
+// ---- user settings (colours, size), remembered ---------------------------------
+// One setting for every instance, in %APPDATA%\Oxo Music\Oxo Synth2:
+//   background.txt  "RRGGBB"  panel background  (BG Color)
+//   accent.txt      "RRGGBB"  knob arc / dots / pointer  (Color)
+//   scale.txt       "1.25"    window zoom
+// The section panels are derived from the background (a little lighter or
+// darker), so any background keeps the strips readable.
 
-constexpr uint32_t kDefaultBackground = 0x22252A;
+constexpr uint32_t kDefaultBackground = 0x22252A, kDefaultAccent = 0xFFB040;
+constexpr double kMinScale = 0.7, kMaxScale = 2.5;
 uint32_t gBackground = kDefaultBackground;
+uint32_t gAccent = kDefaultAccent;
+double gScale = 1.0;
 
-std::filesystem::path BackgroundFile() { return storage::Root() / "background.txt"; }
+std::filesystem::path SettingsFile(const char *name) { return storage::Root() / name; }
 
-void LoadBackground() {
-    std::ifstream in(BackgroundFile());
+bool ReadText(const char *name, std::string &out) {
+    std::ifstream in(SettingsFile(name));
+    return bool(in >> out);
+}
+void WriteText(const char *name, const std::string &text) {
+    std::error_code ec;
+    std::filesystem::create_directories(SettingsFile(name).parent_path(), ec);
+    std::ofstream(SettingsFile(name), std::ios::trunc) << text << "\n";
+}
+
+void LoadHex(const char *name, uint32_t &value) {
     std::string hex;
-    if (in >> hex && hex.size() == 6) {
-        char *end = nullptr;
-        const unsigned long v = std::strtoul(hex.c_str(), &end, 16);
-        if (end && *end == '\0') gBackground = uint32_t(v);
+    if (!ReadText(name, hex) || hex.size() != 6) return;
+    char *end = nullptr;
+    const unsigned long v = std::strtoul(hex.c_str(), &end, 16);
+    if (end && *end == '\0') value = uint32_t(v);
+}
+void SaveHex(const char *name, uint32_t value) {
+    char b[16];
+    std::snprintf(b, sizeof b, "%06X", unsigned(value & 0xFFFFFF));
+    WriteText(name, b);
+}
+
+void LoadSettings() {
+    LoadHex("background.txt", gBackground);
+    LoadHex("accent.txt", gAccent);
+    std::string text;
+    if (ReadText("scale.txt", text)) {
+        const double v = std::atof(text.c_str());
+        if (v >= kMinScale && v <= kMaxScale) gScale = v;
     }
 }
-
-void SaveBackground() {
-    std::error_code ec;
-    std::filesystem::create_directories(BackgroundFile().parent_path(), ec);
-    std::ofstream out(BackgroundFile(), std::ios::trunc);
-    char b[16];
-    std::snprintf(b, sizeof b, "%06X", unsigned(gBackground & 0xFFFFFF));
-    out << b << "\n";
+void SaveBackground() { SaveHex("background.txt", gBackground); }
+void SaveAccent() { SaveHex("accent.txt", gAccent); }
+void SaveScale() {
+    char b[32];
+    std::snprintf(b, sizeof b, "%.3f", gScale);
+    WriteText("scale.txt", b);
 }
+
+CColor AccentColor() { return CColor(uint8_t(gAccent >> 16), uint8_t(gAccent >> 8), uint8_t(gAccent), 255); }
 
 CColor Shade(uint32_t rgb, int delta) {
     const auto ch = [&](int shift) { return uint8_t(std::clamp(int((rgb >> shift) & 0xFF) + delta, 0, 255)); };
@@ -261,12 +289,12 @@ public:
         for (int i = 0; i < kDots; ++i) {
             const double a = (135.0 + 270.0 * i / (kDots - 1)) * M_PI / 180.0;
             const bool on = double(i) / (kDots - 1) <= t + 1e-9 && value_ != min_;
-            dc->setFillColor(on ? kAccent : kTrackOff);
+            dc->setFillColor(on ? AccentColor() : kTrackOff);
             const CCoord px = cx + std::cos(a) * (r + 1), py = cy + std::sin(a) * (r + 1);
             dc->drawEllipse(CRect(px - 1.4, py - 1.4, px + 1.4, py + 1.4), kDrawFilled);
         }
         const double a = (135.0 + 270.0 * t) * M_PI / 180.0;
-        dc->setFrameColor(kAccent);
+        dc->setFrameColor(AccentColor());
         dc->setLineWidth(2.0);
         dc->drawLine(CPoint(cx + std::cos(a) * 3, cy + std::sin(a) * 3), CPoint(cx + std::cos(a) * (r - 5), cy + std::sin(a) * (r - 5)));
         DrawLabel(dc, v);
@@ -472,6 +500,64 @@ private:
     std::function<void(Lcd &)> onClick_;
 };
 
+// Bottom-right resize grip. Dragging asks the editor for a new zoom; the host
+// resizes its window and calls back onSize. Mouse positions arrive in the
+// panel's own (unzoomed) coordinates, which shift as the window follows the
+// mouse, so the target zoom is computed from the live zoom each move.
+class Grip : public CView {
+public:
+    Grip(const CRect &r, CCoord baseW, CCoord baseH, std::function<double()> zoom, std::function<void(double)> request,
+         std::function<void()> done)
+        : CView(r), baseW_(baseW), baseH_(baseH), zoom_(std::move(zoom)), request_(std::move(request)), done_(std::move(done)) {}
+
+    void draw(CDrawContext *dc) override {
+        const CRect v = getViewSize();
+        dc->setDrawMode(kAntiAliasing);
+        dc->setFrameColor(LabelText());
+        dc->setLineWidth(1.5);
+        for (int i = 1; i <= 3; ++i) {
+            const CCoord d = i * 4.0;
+            dc->drawLine(CPoint(v.right - 2, v.bottom - 2 - d), CPoint(v.right - 2 - d, v.bottom - 2));
+        }
+        setDirty(false);
+    }
+    void onMouseEnterEvent(MouseEnterEvent &) override {
+        if (auto *f = getFrame()) f->setCursor(kCursorNWSESize);
+    }
+    void onMouseExitEvent(MouseExitEvent &) override {
+        if (auto *f = getFrame(); f && !dragging_) f->setCursor(kCursorDefault);
+    }
+    void onMouseDownEvent(MouseDownEvent &e) override {
+        if (!e.buttonState.isLeft()) return;
+        dragging_ = true;
+        grabX_ = baseW_ - e.mousePosition.x; // how far the click was from the corner
+        grabY_ = baseH_ - e.mousePosition.y;
+        e.consumed = true;
+    }
+    void onMouseMoveEvent(MouseMoveEvent &e) override {
+        if (!dragging_) return;
+        const double z = zoom_();
+        const double zx = (e.mousePosition.x + grabX_) * z / baseW_, zy = (e.mousePosition.y + grabY_) * z / baseH_;
+        request_((zx + zy) / 2.0);
+        e.consumed = true;
+    }
+    void onMouseUpEvent(MouseUpEvent &e) override { Finish(); e.consumed = true; }
+    void onMouseCancelEvent(MouseCancelEvent &) override { Finish(); }
+
+private:
+    void Finish() {
+        if (!dragging_) return;
+        dragging_ = false;
+        if (auto *f = getFrame()) f->setCursor(kCursorDefault);
+        done_();
+    }
+    CCoord baseW_, baseH_, grabX_ = 0, grabY_ = 0;
+    bool dragging_ = false;
+    std::function<double()> zoom_;
+    std::function<void(double)> request_;
+    std::function<void()> done_;
+};
+
 // ---- native file dialogs ------------------------------------------------------
 
 std::string Utf8(const std::wstring &w) {
@@ -619,8 +705,9 @@ struct OxoSynth2WinEditor::Panel {
         menu->addEntry("Save patch file...", 2);
         menu->addEntry("All notes off", 3);
         menu->addSeparator();
-        menu->addEntry("Background color...", 4);
-        menu->addEntry("Reset background color", 5);
+        menu->addEntry("BG Color...", 4);
+        menu->addEntry("Color...", 5);
+        menu->addEntry("Reset colors", 6);
         menu->popup(frame, where, [this](COptionMenu *m) {
             switch (m->getLastResult()) {
                 case 0: env.c->ApplyPatch(s2::InitPatch()); break;
@@ -638,7 +725,8 @@ struct OxoSynth2WinEditor::Panel {
                 }
                 case 3: env.c->AllNotesOff(); break;
                 case 4: ChooseBackground(); break;
-                case 5: ResetBackground(); break;
+                case 5: ChooseAccent(); break;
+                case 6: ResetColors(); break;
                 default: break;
             }
         });
@@ -657,9 +745,19 @@ struct OxoSynth2WinEditor::Panel {
         ApplyBackground();
     }
 
-    void ResetBackground() {
+    void ChooseAccent() {
+        uint32_t rgb = gAccent;
+        if (!PickColor(hwnd, rgb)) return;
+        gAccent = rgb;
+        SaveAccent();
+        frame->invalid(); // knobs redraw with the new colour
+    }
+
+    void ResetColors() {
         gBackground = kDefaultBackground;
+        gAccent = kDefaultAccent;
         SaveBackground();
+        SaveAccent();
         ApplyBackground();
     }
 
@@ -710,8 +808,9 @@ OxoSynth2WinEditor::OxoSynth2WinEditor(OxoSynth2Controller *controller)
         rowH = std::max(rowH, h);
         maxW = std::max(maxW, x);
     }
-    const int width = int(std::max<CCoord>(maxW, 520)), height = int(y + rowH + kGap);
-    setRect(Steinberg::ViewRect(0, 0, width, height));
+    baseW_ = int(std::max<CCoord>(maxW, 520));
+    baseH_ = int(y + rowH + kGap + 8); // + room for the resize grip
+    setRect(Steinberg::ViewRect(0, 0, baseW_, baseH_));
 }
 
 OxoSynth2WinEditor::~OxoSynth2WinEditor() = default;
@@ -723,8 +822,8 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
 #endif
 {
     if (frame) return false;
-    const Steinberg::ViewRect vr = getRect();
-    const CRect size(0, 0, vr.getWidth(), vr.getHeight());
+    // Layout is always in design units; the frame's zoom does the scaling.
+    const CRect size(0, 0, baseW_, baseH_);
 
     panel_ = std::make_unique<Panel>();
     Panel &p = *panel_;
@@ -735,13 +834,13 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
     p.height = size.getHeight();
 
     frame = new CFrame(size, this);
-    LoadBackground();
+    LoadSettings();
     frame->setBackgroundColor(BgColor());
     p.frame = frame;
 
     // Header: [< >] [ LCD ........ ] [browse|menu] [volume]
     const CCoord W = size.getWidth(), volW = 56, btnW = 62, prevW = 28;
-    const CCoord lcdL = 8 + prevW + 4, btnL = W - 8 - volW - 4 - btnW, colorW = 44, lcdR = btnL - 4 - colorW - 4;
+    const CCoord lcdL = 8 + prevW + 4, btnL = W - 8 - volW - 4 - btnW, colorW = 62, lcdR = btnL - 4 - colorW - 4;
     p.lcd = new Lcd(CRect(lcdL, 8, lcdR, kHeaderH - 6),
                     [&p](Lcd &l) { p.Browse(CPoint(l.getViewSize().left, l.getViewSize().bottom)); });
     frame->addView(p.lcd);
@@ -750,8 +849,11 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
     frame->addView(new Button(CRect(btnL, 8, btnL + btnW, 8 + 24), "browse", [&p](Button &b, const MouseDownEvent &) {
         p.Browse(CPoint(b.getViewSize().left, b.getViewSize().bottom));
     }));
-    frame->addView(new Button(CRect(btnL - 4 - colorW, 8, btnL - 4, 8 + 50), "color", [&p](Button &, const MouseDownEvent &) {
+    frame->addView(new Button(CRect(btnL - 4 - colorW, 8, btnL - 4, 8 + 24), "BG Color", [&p](Button &, const MouseDownEvent &) {
         p.ChooseBackground();
+    }));
+    frame->addView(new Button(CRect(btnL - 4 - colorW, 8 + 26, btnL - 4, 8 + 50), "Color", [&p](Button &, const MouseDownEvent &) {
+        p.ChooseAccent();
     }));
     frame->addView(new Button(CRect(btnL, 8 + 26, btnL + btnW, 8 + 50), "menu", [&p](Button &b, const MouseDownEvent &) {
         p.MainMenu(CPoint(b.getViewSize().left, b.getViewSize().bottom));
@@ -787,6 +889,14 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
         rowH = std::max(rowH, h);
     }
 
+    // Resize grip (added last: on top of the panels).
+    {
+        constexpr CCoord g = 16;
+        frame->addView(new Grip(
+            CRect(size.getWidth() - g, size.getHeight() - g, size.getWidth(), size.getHeight()), size.getWidth(), size.getHeight(),
+            [this] { return frame ? frame->getZoom() : 1.0; }, [this](double z) { RequestScale(z); }, [] { SaveScale(); }));
+    }
+
     // The library list is scanned on a worker; the LCD polls it.
     controller_->Library().StartRescan();
 
@@ -795,17 +905,49 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
 #else
     frame->open(parent);
 #endif
+    if (std::abs(gScale - 1.0) > 1e-3) frame->setZoom(gScale); // restore the last size
     p.Refresh();
     return true;
 }
 
 void PLUGIN_API OxoSynth2WinEditor::close() {
     if (frame) {
+        SaveScale();
         frame->removeAll(true);
         frame->close(); // releases the frame (and the views it still owns)
         frame = nullptr;
     }
     panel_.reset();
+}
+
+void OxoSynth2WinEditor::RequestScale(double zoom) {
+    if (!plugFrame || baseW_ <= 0) return;
+    zoom = std::clamp(zoom, kMinScale, kMaxScale);
+    const int w = int(std::lround(baseW_ * zoom)), h = int(std::lround(baseH_ * zoom));
+    const Steinberg::ViewRect cur = getRect();
+    if (w == cur.getWidth() && h == cur.getHeight()) return;
+    Steinberg::ViewRect vr(0, 0, w, h);
+    plugFrame->resizeView(this, &vr); // the host answers with onSize
+}
+
+Steinberg::tresult PLUGIN_API OxoSynth2WinEditor::onSize(Steinberg::ViewRect *newSize) {
+    if (frame && newSize && baseW_ > 0) {
+        const double z = std::clamp(double(newSize->getWidth()) / baseW_, kMinScale, kMaxScale);
+        if (std::abs(z - frame->getZoom()) > 1e-4) frame->setZoom(z);
+        gScale = z;
+    }
+    // Not VSTGUIEditor::onSize: that would set the frame to the raw pixel
+    // size and undo the zoom bookkeeping above.
+    return Steinberg::Vst::EditorView::onSize(newSize);
+}
+
+Steinberg::tresult PLUGIN_API OxoSynth2WinEditor::checkSizeConstraint(Steinberg::ViewRect *rect) {
+    if (!rect || baseW_ <= 0) return Steinberg::kResultFalse;
+    // Keep the design proportions: one zoom from both dimensions.
+    const double z = std::clamp((double(rect->getWidth()) / baseW_ + double(rect->getHeight()) / baseH_) / 2.0, kMinScale, kMaxScale);
+    rect->right = rect->left + int(std::lround(baseW_ * z));
+    rect->bottom = rect->top + int(std::lround(baseH_ * z));
+    return Steinberg::kResultTrue;
 }
 
 CMessageResult OxoSynth2WinEditor::notify(CBaseObject *sender, const char *message) {
