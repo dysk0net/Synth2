@@ -1,6 +1,7 @@
 #include "OxoSynth2WinEditor.h"
 
 #include "../OxoSynth2Controller.h"
+#include "EditorCore/Storage.hpp"
 #include "EngineCore/InitPatch.hpp"
 #include "EngineCore/ParamFormat.hpp"
 #include "EngineCore/Params.hpp"
@@ -25,6 +26,9 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <fstream>
 #include <functional>
 #include <string>
 #include <vector>
@@ -37,8 +41,6 @@ namespace {
 
 // ---- look -----------------------------------------------------------------
 
-const CColor kBg{34, 37, 42, 255};
-const CColor kStrip{52, 57, 66, 255};
 const CColor kStripText{214, 220, 230, 255};
 const CColor kKnob{18, 20, 24, 255};
 const CColor kKnobEdge{92, 100, 114, 255};
@@ -50,6 +52,51 @@ const CColor kLabel{170, 178, 192, 255};
 const CColor kLcdBg{12, 38, 44, 255};
 const CColor kLcdText{110, 232, 230, 255};
 const CColor kBtn{70, 77, 90, 255};
+
+// ---- background colour (user-chosen, remembered) -------------------------------
+// One setting for every instance: %APPDATA%\Oxo Music\Oxo Synth2\background.txt
+// holding "RRGGBB". The section panels are derived from it (a little lighter),
+// so any background keeps the strips readable.
+
+constexpr uint32_t kDefaultBackground = 0x22252A;
+uint32_t gBackground = kDefaultBackground;
+
+std::filesystem::path BackgroundFile() { return storage::Root() / "background.txt"; }
+
+void LoadBackground() {
+    std::ifstream in(BackgroundFile());
+    std::string hex;
+    if (in >> hex && hex.size() == 6) {
+        char *end = nullptr;
+        const unsigned long v = std::strtoul(hex.c_str(), &end, 16);
+        if (end && *end == '\0') gBackground = uint32_t(v);
+    }
+}
+
+void SaveBackground() {
+    std::error_code ec;
+    std::filesystem::create_directories(BackgroundFile().parent_path(), ec);
+    std::ofstream out(BackgroundFile(), std::ios::trunc);
+    char b[16];
+    std::snprintf(b, sizeof b, "%06X", unsigned(gBackground & 0xFFFFFF));
+    out << b << "\n";
+}
+
+CColor Shade(uint32_t rgb, int delta) {
+    const auto ch = [&](int shift) { return uint8_t(std::clamp(int((rgb >> shift) & 0xFF) + delta, 0, 255)); };
+    return CColor(ch(16), ch(8), ch(0), 255);
+}
+// Lighter on dark backgrounds, darker on light ones, so panels always stand out a little.
+bool BackgroundIsLight() {
+    const int r = int((gBackground >> 16) & 0xFF), g = int((gBackground >> 8) & 0xFF), b = int(gBackground & 0xFF);
+    return (r * 299 + g * 587 + b * 114) / 1000 > 140;
+}
+CColor BgColor() { return Shade(gBackground, 0); }
+CColor PanelColor() { return Shade(gBackground, BackgroundIsLight() ? -14 : 7); }
+CColor PanelEdge() { return Shade(gBackground, BackgroundIsLight() ? -34 : 18); }
+CColor PanelHeader() { return Shade(gBackground, BackgroundIsLight() ? -48 : 30); }
+CColor HeaderText() { return BackgroundIsLight() ? CColor(30, 33, 38, 255) : kStripText; }
+CColor LabelText() { return BackgroundIsLight() ? CColor(70, 76, 88, 255) : kLabel; }
 
 constexpr CCoord kCellW = 54, kCellH = 60, kStripH = 18, kPad = 6, kGap = 6;
 constexpr CCoord kHeaderH = 62, kMaxRowWidth = 980;
@@ -185,7 +232,7 @@ protected:
     void DrawLabel(CDrawContext *dc, const CRect &cell) const {
         CRect r(cell.left, cell.bottom - 14, cell.right, cell.bottom);
         dc->setFont(kNormalFontSmaller);
-        dc->setFontColor(kLabel);
+        dc->setFontColor(LabelText());
         dc->drawString(Label().c_str(), r, kCenterText);
     }
 
@@ -375,14 +422,14 @@ public:
     void draw(CDrawContext *dc) override {
         const CRect v = getViewSize();
         dc->setDrawMode(kAntiAliasing);
-        dc->setFillColor(CColor(41, 45, 52, 255));
-        dc->setFrameColor(kStrip);
+        dc->setFillColor(PanelColor());
+        dc->setFrameColor(PanelEdge());
         dc->setLineWidth(1);
         dc->drawRect(v, kDrawFilledAndStroked);
-        dc->setFillColor(kStrip);
+        dc->setFillColor(PanelHeader());
         dc->drawRect(CRect(v.left, v.top, v.right, v.top + kStripH), kDrawFilled);
         dc->setFont(kNormalFontSmall);
-        dc->setFontColor(kStripText);
+        dc->setFontColor(HeaderText());
         dc->drawString(title_.c_str(), CRect(v.left + 6, v.top, v.right, v.top + kStripH), kLeftText);
         setDirty(false);
     }
@@ -451,6 +498,20 @@ bool PickFile(HWND owner, bool save, const std::string &suggested, std::filesyst
     ofn.Flags = OFN_NOCHANGEDIR | OFN_EXPLORER | (save ? OFN_OVERWRITEPROMPT : OFN_FILEMUSTEXIST);
     if (!(save ? GetSaveFileNameW(&ofn) : GetOpenFileNameW(&ofn))) return false;
     out = file;
+    return true;
+}
+
+// Standard Windows colour picker (with the "Define Custom Colors" pane open).
+bool PickColor(HWND owner, uint32_t &rgb) {
+    static COLORREF custom[16] = {};
+    CHOOSECOLORW cc{};
+    cc.lStructSize = sizeof cc;
+    cc.hwndOwner = owner;
+    cc.rgbResult = RGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
+    cc.lpCustColors = custom;
+    cc.Flags = CC_RGBINIT | CC_FULLOPEN | CC_ANYCOLOR;
+    if (!ChooseColorW(&cc)) return false;
+    rgb = (uint32_t(GetRValue(cc.rgbResult)) << 16) | (uint32_t(GetGValue(cc.rgbResult)) << 8) | GetBValue(cc.rgbResult);
     return true;
 }
 
@@ -557,6 +618,9 @@ struct OxoSynth2WinEditor::Panel {
         menu->addEntry("Load patch file...", 1);
         menu->addEntry("Save patch file...", 2);
         menu->addEntry("All notes off", 3);
+        menu->addSeparator();
+        menu->addEntry("Background color...", 4);
+        menu->addEntry("Reset background color", 5);
         menu->popup(frame, where, [this](COptionMenu *m) {
             switch (m->getLastResult()) {
                 case 0: env.c->ApplyPatch(s2::InitPatch()); break;
@@ -573,9 +637,30 @@ struct OxoSynth2WinEditor::Panel {
                     break;
                 }
                 case 3: env.c->AllNotesOff(); break;
+                case 4: ChooseBackground(); break;
+                case 5: ResetBackground(); break;
                 default: break;
             }
         });
+    }
+
+    void ApplyBackground() {
+        frame->setBackgroundColor(BgColor());
+        frame->invalid();
+    }
+
+    void ChooseBackground() {
+        uint32_t rgb = gBackground;
+        if (!PickColor(hwnd, rgb)) return;
+        gBackground = rgb;
+        SaveBackground();
+        ApplyBackground();
+    }
+
+    void ResetBackground() {
+        gBackground = kDefaultBackground;
+        SaveBackground();
+        ApplyBackground();
     }
 
     void ShowReadout(int id) {
@@ -650,12 +735,13 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
     p.height = size.getHeight();
 
     frame = new CFrame(size, this);
-    frame->setBackgroundColor(kBg);
+    LoadBackground();
+    frame->setBackgroundColor(BgColor());
     p.frame = frame;
 
     // Header: [< >] [ LCD ........ ] [browse|menu] [volume]
     const CCoord W = size.getWidth(), volW = 56, btnW = 62, prevW = 28;
-    const CCoord lcdL = 8 + prevW + 4, btnL = W - 8 - volW - 4 - btnW, lcdR = btnL - 4;
+    const CCoord lcdL = 8 + prevW + 4, btnL = W - 8 - volW - 4 - btnW, colorW = 44, lcdR = btnL - 4 - colorW - 4;
     p.lcd = new Lcd(CRect(lcdL, 8, lcdR, kHeaderH - 6),
                     [&p](Lcd &l) { p.Browse(CPoint(l.getViewSize().left, l.getViewSize().bottom)); });
     frame->addView(p.lcd);
@@ -663,6 +749,9 @@ bool PLUGIN_API OxoSynth2WinEditor::open(void *parent)
     frame->addView(new Button(CRect(8, 8 + 26, 8 + prevW, 8 + 50), ">", [&p](Button &, const MouseDownEvent &) { p.StepProgram(1); }));
     frame->addView(new Button(CRect(btnL, 8, btnL + btnW, 8 + 24), "browse", [&p](Button &b, const MouseDownEvent &) {
         p.Browse(CPoint(b.getViewSize().left, b.getViewSize().bottom));
+    }));
+    frame->addView(new Button(CRect(btnL - 4 - colorW, 8, btnL - 4, 8 + 50), "color", [&p](Button &, const MouseDownEvent &) {
+        p.ChooseBackground();
     }));
     frame->addView(new Button(CRect(btnL, 8 + 26, btnL + btnW, 8 + 50), "menu", [&p](Button &b, const MouseDownEvent &) {
         p.MainMenu(CPoint(b.getViewSize().left, b.getViewSize().bottom));
